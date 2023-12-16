@@ -4,7 +4,7 @@
     <!-- Seu cabeçalho existente -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>link1</title>
+    <title>formulario</title>
     <style>
         body {
             background: linear-gradient(to right, #084e43, #809a93);
@@ -144,7 +144,7 @@
 
             // Adicionar os dados como parâmetros de consulta na URL
             const parametros = `?nomeMusica=${encodeURIComponent(nomeMusica)}&linkYoutube=${encodeURIComponent(linkYoutube)}&linkCifrasClub=${encodeURIComponent(linkCifrasClub)}&vozSelecionada=${encodeURIComponent(vozSelecionada)}&dataSelecionada=${encodeURIComponent(dataSelecionada)}&tonalidadeSelecionada=${encodeURIComponent(tonalidadeSelecionada)}`;
-            const urlPlaylist = `https://is-moraes.github.io/louvor_generator/Formulário.html${parametros}`;
+            const urlPlaylist = `file:///D:/Curso%20JS/Aula%2006/Link2.html#${parametros}`;
 
             // Redirecionar para a página da playlist
             window.location.href = urlPlaylist;
