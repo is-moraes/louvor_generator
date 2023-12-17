@@ -89,7 +89,7 @@
             height: 720px;
         }
     </style>
-    <div id="playlist">
+    <div  id="playlist">
         <h2>Playlist</h2>
         <ul id="playlistItens"></ul>
         <button onclick="voltarParaCadastro()">Voltar para o Cadastro</button>
@@ -117,7 +117,12 @@
         // Função para obter parâmetros de consulta da URL
         function obterParametro(nome) {
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(nome);
+            //return urlParams.get(nome);
+        }
+
+        // Função para obter dados da playlist armazenados localmente
+        function obterParametro() {
+            return JSON.parse(localStorage.getItem('playlistData')) || [];
         }
 
         // Função para adicionar um item à playlist
@@ -134,9 +139,15 @@
             // Construir a URL da parte 2 com os parametros
            const urlParte2 = `https://is-moraes.github.io/louvor_generator/formulario.html#?nomeMusica=${encodeURIComponent(nomeMusica)}&linkYoutube=${encodeURIComponent(linkYoutube)}&linkCifrasClub=${encodeURIComponent(linkCifrasClub)}&vozSelecionada=${encodeURIComponent(vozSelecionada)}&dataSelecionada=${encodeURIComponent(dataSelecionada)}&tonalidadeSelecionada=${encodeURIComponent(tonalidadeSelecionada)}`;
             
-
+            // Função para adicionar um item à playlist
+        function adicionarPlaylistItem() {
+            // Obter dados da playlist armazenados localmente
+            const playlistData = obterPlaylistData();
             
             // Adicionar o item à playlist
+            playlistData.forEach((formData, index) => {
+                const urlParte1 = `https://is-moraes.github.io/louvor_generator/formulario.html#?index=${index}`;
+                const playlistItem = `
             const playlistItem = `
                 <div class="playlistItem">
                     <strong>${nomeMusica}</strong>
@@ -156,10 +167,11 @@
             `;
 
             // Adicionar o item à lista
-            const playlistItens = document.getElementById('playlistItens');
-            const listItem = document.createElement('li');
-            listItem.innerHTML = playlistItem;
-            playlistItens.appendChild(listItem);
+                const playlistItens = document.getElementById('playlistItens');
+                const listItem = document.createElement('li');
+                listItem.innerHTML = playlistItem;
+                playlistItens.appendChild(listItem);
+            });
 
             // Exibir a div da playlist
             document.getElementById('playlist').style.display = 'block';
