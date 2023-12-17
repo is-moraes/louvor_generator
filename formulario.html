@@ -11,7 +11,6 @@
             color: #ffffff;
             font-family: Arial, sans-serif;
         }
-
         #formulario, #playlist, #novocadastro, #videoContainer, #cifraContainer {
             max-width: 900px;
             margin: 50px auto;
@@ -19,29 +18,24 @@
             padding: 20px;
             border-radius: 10px;
         }
-
         /*#playlist, #novocadastro, #videoContainer, #cifraContainer {
             display: none;
         }*/
-
         label {
             display: block;
             margin-bottom: 10px;
         }
-
         input, select {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
             box-sizing: border-box;
         }
-
         #preview {
             max-width: 100%;
             height: auto;
             margin-bottom: 15px;
         }
-
         #novocadastro-btn {
             float: right;
             background-color: #3498db;
@@ -93,46 +87,41 @@
                 <option value="A#">A#</option>
                 <option value="B">G</option>
             </select>
-    
+
+            <button onclick="processarFormulario()">Enviar</button>
+
             <button onclick="processarformulario()">Enviar</button>
                      
     </div>
 
     <script>
         document.getElementById('linkYoutube').addEventListener('input', atualizarPrevia);
-
         function atualizarPrevia() {
             const linkYoutube = document.getElementById('linkYoutube').value;
             const preview = document.getElementById('preview');
-
             // Extrair o ID do vídeo do link do YouTube
             const videoId = extrairVideoId(linkYoutube);
-
             // Construir a URL da prévia do vídeo
             const previewUrl = `https://img.youtube.com/vi/${videoId}/0.jpg`;
-
             // Atualizar a imagem de prévia
             preview.src = previewUrl;
         
         }
-
         function extrairVideoId(linkYoutube) {
             // Extrair o ID do vídeo do link do YouTube
             const regex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
             const match = linkYoutube.match(regex);
-
             if (match && match[1]) {
                 return match[1];
             }
-
             return null;
         }
-
         function formatarData(data) {
             const partes = data.split("-");
             return `${partes[2]}/${partes[1]}/${partes[0]}`;
         }
 
+        function processarFormulario() {
         function processarformulario() {
             const nomeMusica = document.getElementById('nome').value;
             const linkYoutube = document.getElementById('linkYoutube').value;
@@ -141,14 +130,13 @@
             const dataSelecionada = formatarData(document.getElementById('data').value);
             const arquivoMP3 = document.getElementById('arquivoMP3').files[0];
             const tonalidadeSelecionada = document.getElementById('tonalidade').value;
-
             // Adicionar os dados como parâmetros de consulta na URL
             const parametros = `https://is-moraes.github.io/louvor_generator/playlist.html?nomeMusica=${encodeURIComponent(nomeMusica)}&linkYoutube=${encodeURIComponent(linkYoutube)}&linkCifrasClub=${encodeURIComponent(linkCifrasClub)}&vozSelecionada=${encodeURIComponent(vozSelecionada)}&dataSelecionada=${encodeURIComponent(dataSelecionada)}&tonalidadeSelecionada=${encodeURIComponent(tonalidadeSelecionada)}`;
            // const urlPlaylist = `https://is-moraes.github.io/louvor_generator/playlist.html#?nomeMusica=${encodeURIComponent(nomeMusica)}&linkYoutube=${encodeURIComponent(linkYoutube)}&linkCifrasClub=${encodeURIComponent(linkCifrasClub)}&vozSelecionada=${encodeURIComponent(vozSelecionada)}&dataSelecionada=${encodeURIComponent(dataSelecionada)}&tonalidadeSelecionada=${encodeURIComponent(tonalidadeSelecionada)}`;
 
             // Redirecionar para a página da playlist
             window.location.href = parametros;
-            
+
             // Objeto contendo os dados do formulário
             const formData = {
                 nomeMusica,
@@ -162,64 +150,49 @@
         function reproduzirVideo(linkYoutube) {
             const videoContainer = document.getElementById('videoContainer');
             const videoPlayer = document.getElementById('videoPlayer');
-
             // Extrair o ID do vídeo do link do YouTube
             const videoId = extrairVideoId(linkYoutube);
-
             // Construir a URL do vídeo incorporado
             const videoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-
             // Definir a origem do iframe para reproduzir o vídeo
             videoPlayer.src = videoUrl;
-
             // Exibir o contêiner do vídeo
             videoContainer.style.display = 'block';
         }
-
         function fecharVideo() {
             const videoContainer = document.getElementById('videoContainer');
             const videoPlayer = document.getElementById('videoPlayer');
-
             // Parar a reprodução do vídeo
             videoPlayer.src = '';
-
             // Ocultar o contêiner do vídeo
             videoContainer.style.display = 'none';
         }
-
         function visualizarCifra(linkCifrasClub) {
             const cifraContainer = document.getElementById('cifraContainer');
             const cifra = document.getElementById('cifra');
-
             // Definir a origem do iframe para visualizar a cifra
             cifra.src = linkCifrasClub;
-
             // Exibir o contêiner da cifra
             cifraContainer.style.display = 'block';
         }
-
         function fecharCifra() {
             const cifraContainer = document.getElementById('cifraContainer');
             const cifra = document.getElementById('cifra');
-
             // Parar a visualização da cifra
             cifra.src = '';
-
             // Ocultar o contêiner da cifra
             cifraContainer.style.display = 'none';
         }
-
         function voltarParaCadastro() {
             // Ocultar a div da playlist, o botão de Novo Cadastro e exibir a div do formulário
             document.getElementById('playlist').style.display = 'none';
             document.getElementById('novocadastro').style.display = 'none';
             document.getElementById('formulario').style.display = 'block';
         }
-
        function formatarData(data) {
             const partes = data.split("-");
             return `${partes[2]}/${partes[1]}/${partes[0]}`;
-       
+
            // Obter a lista de dados armazenados localmente ou inicializar uma nova lista
             const playlistData = JSON.parse(localStorage.getItem('playlistData')) || [];
 
@@ -231,7 +204,7 @@
 
             // Redirecionar para a página da playlist
             window.location.href = 'https://is-moraes.github.io/louvor_generator/playlist.html';
-           
+
         }
 
     </script>
