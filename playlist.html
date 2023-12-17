@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Louvor2</title>
+    <title>Playlist da Semana!</title>
     <style>
         body {
             background: linear-gradient(to right, #084e43, #809a93);
@@ -108,7 +108,7 @@
 </head>
 <body>
     <div id="playlist">
-        <h2>Link2</h2>
+        <h2>Playlist</h2>
         <ul id="playlistItens"></ul>
         <button onclick="voltarParaCadastro()">Voltar para o Cadastro</button>
     </div>
@@ -151,6 +151,7 @@
                     <br>
                     <span>Tonalidade: ${tonalidadeSelecionada}</span>
                     <br>
+                    <a href="${urlParte1}">Editar</a> <!-- Adiciona um link para editar na parte 1 -->
                     <button onclick="fecharItem()">Fechar</button>
                 </div>
             `;
