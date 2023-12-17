@@ -129,13 +129,10 @@
             const vozSelecionada = obterParametro('vozSelecionada');
             const dataSelecionada = obterParametro('dataSelecionada');
             const tonalidadeSelecionada = obterParametro('tonalidadeSelecionada');
-             
-            
-            // Construir a URL da parte 2 com os parametros
-           const urlParte2 = `https://is-moraes.github.io/louvor_generator/formulario.html#?nomeMusica=${encodeURIComponent(nomeMusica)}&linkYoutube=${encodeURIComponent(linkYoutube)}&linkCifrasClub=${encodeURIComponent(linkCifrasClub)}&vozSelecionada=${encodeURIComponent(vozSelecionada)}&dataSelecionada=${encodeURIComponent(dataSelecionada)}&tonalidadeSelecionada=${encodeURIComponent(tonalidadeSelecionada)}`;
-            
 
-            
+            // Construir a URL da parte 1 com os parâmetros
+            const urlParte1 = `https://is-moraes.github.io/louvor_generator/formulario.html#?nomeMusica=${encodeURIComponent(nomeMusica)}&linkYoutube=${encodeURIComponent(linkYoutube)}&linkCifrasClub=${encodeURIComponent(linkCifrasClub)}&vozSelecionada=${encodeURIComponent(vozSelecionada)}&dataSelecionada=${encodeURIComponent(dataSelecionada)}&tonalidadeSelecionada=${encodeURIComponent(tonalidadeSelecionada)}`;
+
             // Adicionar o item à playlist
             const playlistItem = `
                 <div class="playlistItem">
