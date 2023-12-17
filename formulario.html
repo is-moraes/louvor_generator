@@ -207,13 +207,11 @@
             document.getElementById('formulario').style.display = 'block';
         }
 
-       // function novoCadastro() {
-            // Limpar os campos e ocultar a div da playlist e o botão de Novo Cadastro
-            //document.getElementById('formulario').reset();
-           // document.getElementById('playlist').style.display = 'none';
-            //document.getElementById('novocadastro').style.display = 'none';
-            //document.getElementById('formulario').style.display = 'block';
-        //}
+       function formatarData(data) {
+            const partes = data.split("-");
+            return `${partes[2]}/${partes[1]}/${partes[0]}`;
+        }
+
     </script>
 </body>
 </html>
