@@ -144,10 +144,10 @@
 
             // Adicionar os dados como parâmetros de consulta na URL
             const parametros = `https://is-moraes.github.io/louvor_generator/playlist.html?nomeMusica=${encodeURIComponent(nomeMusica)}&linkYoutube=${encodeURIComponent(linkYoutube)}&linkCifrasClub=${encodeURIComponent(linkCifrasClub)}&vozSelecionada=${encodeURIComponent(vozSelecionada)}&dataSelecionada=${encodeURIComponent(dataSelecionada)}&tonalidadeSelecionada=${encodeURIComponent(tonalidadeSelecionada)}`;
-            //const parametros = `https://is-moraes.github.io/louvor_generator/playlist.html${encodeURIComponent(nomeMusica)}&linkYoutube=${encodeURIComponent(linkYoutube)}&linkCifrasClub=${encodeURIComponent(linkCifrasClub)}&vozSelecionada=${encodeURIComponent(vozSelecionada)}&dataSelecionada=${encodeURIComponent(dataSelecionada)}&tonalidadeSelecionada=${encodeURIComponent(tonalidadeSelecionada)}`;
+           // const urlPlaylist = `https://is-moraes.github.io/louvor_generator/playlist.html#?nomeMusica=${encodeURIComponent(nomeMusica)}&linkYoutube=${encodeURIComponent(linkYoutube)}&linkCifrasClub=${encodeURIComponent(linkCifrasClub)}&vozSelecionada=${encodeURIComponent(vozSelecionada)}&dataSelecionada=${encodeURIComponent(dataSelecionada)}&tonalidadeSelecionada=${encodeURIComponent(tonalidadeSelecionada)}`;
 
             // Redirecionar para a página da playlist
-            window.location.href = urlPlaylist;
+            window.location.href = parametros;
         }
 
         function reproduzirVideo(linkYoutube) {
