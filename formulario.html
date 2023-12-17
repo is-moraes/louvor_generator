@@ -94,8 +94,8 @@
                 <option value="B">G</option>
             </select>
     
-            <button onclick="processarFormulario()">Enviar</button>
-      
+            <button onclick="processarformulario()">Enviar</button>
+                     
     </div>
 
     <script>
@@ -133,7 +133,7 @@
             return `${partes[2]}/${partes[1]}/${partes[0]}`;
         }
 
-        function processarFormulario() {
+        function processarformulario() {
             const nomeMusica = document.getElementById('nome').value;
             const linkYoutube = document.getElementById('linkYoutube').value;
             const linkCifrasClub = document.getElementById('linkCifrasClub').value;
@@ -148,6 +148,15 @@
 
             // Redirecionar para a página da playlist
             window.location.href = parametros;
+            
+            // Objeto contendo os dados do formulário
+            const formData = {
+                nomeMusica,
+                linkYoutube,
+                linkCifrasClub,
+                vozSelecionada,
+                dataSelecionada,
+                tonalidadeSelecionada
         }
 
         function reproduzirVideo(linkYoutube) {
@@ -210,6 +219,19 @@
        function formatarData(data) {
             const partes = data.split("-");
             return `${partes[2]}/${partes[1]}/${partes[0]}`;
+       
+           // Obter a lista de dados armazenados localmente ou inicializar uma nova lista
+            const playlistData = JSON.parse(localStorage.getItem('playlistData')) || [];
+
+            // Adicionar os dados do formulário à lista
+            playlistData.push(formData);
+
+            // Armazenar a lista atualizada localmente
+            localStorage.setItem('playlistData', JSON.stringify(playlistData));
+
+            // Redirecionar para a página da playlist
+            window.location.href = 'https://is-moraes.github.io/louvor_generator/playlist.html';
+           
         }
 
     </script>
