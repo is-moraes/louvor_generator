@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Louvor2</title>
+    <title>Playlist da Semana!</title>
     <style>
         body {
             background: linear-gradient(to right, #084e43, #809a93);
             color: #ffffff;
             font-family: Arial, sans-serif;
         }
-
         #formulario, #playlist, #novocadastro, #videoContainer, #cifraContainer {
             max-width: 900px;
             margin: 50px auto;
@@ -18,29 +17,24 @@
             padding: 20px;
             border-radius: 10px;
         }
-
         #playlist, #novocadastro, #videoContainer, #cifraContainer {
             display: none;
         }
-
         label {
             display: block;
             margin-bottom: 10px;
         }
-
         input, select {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
             box-sizing: border-box;
         }
-
         #preview {
             max-width: 100%;
             height: auto;
             margin-bottom: 15px;
         }
-
         #novocadastro-btn {
             float: right;
             background-color: #3498db;
@@ -50,26 +44,22 @@
             border-radius: 5px;
             cursor: pointer;
         }
-
         #playlistItens {
             list-style: none;
             padding: 0;
         }
-
         .playlistItem {
             margin-bottom: 20px;
             border: 1px solid #1e6b5a;
             padding: 10px;
             border-radius: 5px;
         }
-
         .playlistItem a {
             color: #3498db;
             text-decoration: none;
             margin-right: 10px;
             cursor: pointer;
         }
-
         .playlistItem button {
             background-color: #3498db;
             color: #fff;
@@ -78,53 +68,68 @@
             border-radius: 3px;
             cursor: pointer;
         }
-
         #videoPlayer {
             width: 100%;
             height: 720px;
         }
-
         #cifra {
             width: 100%;
             height: 720px;
         }
     </style>
-    <div  id="playlist">
+    <div id="playlist">
         <h2>Playlist</h2>
         <ul id="playlistItens"></ul>
         <button onclick="voltarParaCadastro()">Voltar para o Cadastro</button>
     </div>
-    
+
     <div id="videoContainer">
+  <div id="videoContainer">
         <iframe id="videoPlayer" frameborder="0" allowfullscreen></iframe>
         <button onclick="fecharVideo()">Fechar Vídeo</button>
     </div>
-
     <div id="cifraContainer">
         <iframe id="cifra" frameborder="0" allowfullscreen></iframe>
         <button onclick="fecharCifra()">Fechar Cifra</button>
     </div>
-
 </head>
 <body>
     <div id="playlist">
-        <h2>Link2</h2>
+        <h2>Playlist</h2>
         <ul id="playlistItens"></ul>
         <button onclick="voltarParaCadastro()">Voltar para o Cadastro</button>
     </div>
 
     <script>
+         document.getElementById('linkYoutube').addEventListener('input', atualizarPrevia);
+
+        function atualizarPrevia() {
+            const linkYoutube = document.getElementById('linkYoutube').value;
+            const preview = document.getElementById('preview');
+
+            function extrairVideoId(linkYoutube) {
+            // Extrair o ID do vídeo do link do YouTube
+            const regex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+            const match = linkYoutube.match(regex);
+
+            if (match && match[1]) {
+                return match[1];
+            }
+
+            return null;
+        }
+            // Construir a URL da prévia do vídeo
+            const previewUrl = `https://img.youtube.com/vi/${videoId}/0.jpg`;
+
+            // Atualizar a imagem de prévia
+            preview.src = previewUrl;
+        }
+
         // Função para obter parâmetros de consulta da URL
         function obterParametro(nome) {
             const urlParams = new URLSearchParams(window.location.search);
-            //return urlParams.get(nome);
+            return urlParams.get(nome);
         }
-
-        // Função para obter dados da playlist armazenados localmente
-        function obterParametro() {
-            return JSON.parse(localStorage.getItem('playlistData')) || [];
-        }
-
         // Função para adicionar um item à playlist
         function adicionarItemPlaylist() {
             // Obter parâmetros de consulta da URL
@@ -134,20 +139,9 @@
             const vozSelecionada = obterParametro('vozSelecionada');
             const dataSelecionada = obterParametro('dataSelecionada');
             const tonalidadeSelecionada = obterParametro('tonalidadeSelecionada');
-             
-            
-            // Construir a URL da parte 2 com os parametros
-           const urlParte2 = `https://is-moraes.github.io/louvor_generator/formulario.html#?nomeMusica=${encodeURIComponent(nomeMusica)}&linkYoutube=${encodeURIComponent(linkYoutube)}&linkCifrasClub=${encodeURIComponent(linkCifrasClub)}&vozSelecionada=${encodeURIComponent(vozSelecionada)}&dataSelecionada=${encodeURIComponent(dataSelecionada)}&tonalidadeSelecionada=${encodeURIComponent(tonalidadeSelecionada)}`;
-            
-            // Função para adicionar um item à playlist
-        function adicionarPlaylistItem() {
-            // Obter dados da playlist armazenados localmente
-            const playlistData = obterPlaylistData();
-            
+            // Construir a URL da parte 1 com os parâmetros
+            const urlParte1 = `https://is-moraes.github.io/louvor_generator/formulario.html#?nomeMusica=${encodeURIComponent(nomeMusica)}&linkYoutube=${encodeURIComponent(linkYoutube)}&linkCifrasClub=${encodeURIComponent(linkCifrasClub)}&vozSelecionada=${encodeURIComponent(vozSelecionada)}&dataSelecionada=${encodeURIComponent(dataSelecionada)}&tonalidadeSelecionada=${encodeURIComponent(tonalidadeSelecionada)}`;
             // Adicionar o item à playlist
-            playlistData.forEach((formData, index) => {
-                const urlParte1 = `https://is-moraes.github.io/louvor_generator/formulario.html#?index=${index}`;
-                const playlistItem = `
             const playlistItem = `
                 <div class="playlistItem">
                     <strong>${nomeMusica}</strong>
@@ -162,21 +156,18 @@
                     <br>
                     <span>Tonalidade: ${tonalidadeSelecionada}</span>
                     <br>
+                    <a href="${urlParte1}">Editar</a> <!-- Adiciona um link para editar na parte 1 -->
                     <button onclick="fecharItem()">Fechar</button>
                 </div>
             `;
-
             // Adicionar o item à lista
-                const playlistItens = document.getElementById('playlistItens');
-                const listItem = document.createElement('li');
-                listItem.innerHTML = playlistItem;
-                playlistItens.appendChild(listItem);
-            });
-
+            const playlistItens = document.getElementById('playlistItens');
+            const listItem = document.createElement('li');
+            listItem.innerHTML = playlistItem;
+            playlistItens.appendChild(listItem);
             // Exibir a div da playlist
             document.getElementById('playlist').style.display = 'block';
         }
-
         // Chame a função para adicionar um item à playlist
         adicionarItemPlaylist();
     </script>
