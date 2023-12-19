@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Playlist da Semana!</title>
     <style>
-      body {
+        body {
             background: linear-gradient(to right, #084e43, #809a93);
             color: #ffffff;
             font-family: Arial, sans-serif;
@@ -70,38 +70,71 @@
         }
         #videoPlayer {
             width: 100%;
-            height: 480px; /* Ajuste a altura conforme necessário */
+            height: 720px;
         }
         #cifra {
             width: 100%;
-            height: 480px; /* Ajuste a altura conforme necessário */
+            height: 720px;
         }
     </style>
 </head>
 <body>
-    <div id="formulario">
-       <h2>Playlist</h2>
+    <div id="playlist">
+        <h2>Playlist</h2>
+        <button onclick="limparPlaylist()">Limpar Playlist</button>
         <ul id="playlistItens"></ul>
         <button onclick="voltarParaCadastro()">Voltar para o Cadastro</button>
     </div>
 
-    <div id="playlist">
-        <h2>Playlist</h2>
-        <ul id="playlistItens"></ul>
-        <button onclick="voltarParaCadastro()">Voltar para o Cadastro</button>
-        <button onclick="exibirFormulario()">Adicionar Novo Registro</button>
+    <div id="videoContainer">
+        <iframe id="videoPlayer" frameborder="0" allowfullscreen></iframe>
+        <button onclick="fecharVideo()">Fechar Vídeo</button>
+    </div>
+
+    <div id="cifraContainer">
+        <iframe id="cifra" frameborder="0" allowfullscreen></iframe>
+        <button onclick="fecharCifra()">Fechar Cifra</button>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Função para exibir o formulário
-            function exibirFormulario() {
-                document.getElementById('formulario').style.display = 'block';
-                document.getElementById('playlist').style.display = 'none';
+            document.getElementById('linkYoutube').addEventListener('input', atualizarPrevia);
+
+            function atualizarPrevia() {
+                const linkYoutube = document.getElementById('linkYoutube').value;
+                const preview = document.getElementById('preview');
+
+                // Extrair o ID do vídeo do link do YouTube
+                const videoId = extrairVideoId(linkYoutube);
+
+                // Construir a URL da prévia do vídeo
+                const previewUrl = `https://img.youtube.com/vi/${videoId}/0.jpg`;
+
+                // Atualizar a imagem de prévia
+                preview.src = previewUrl;
+            }
+
+            function extrairVideoId(linkYoutube) {
+                // Extrair o ID do vídeo do link do YouTube
+                const regex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+                const match = linkYoutube.match(regex);
+
+                if (match && match[1]) {
+                    return match[1];
+                }
+
+                return null;
+            }
+
+            // Função para obter parâmetros de consulta da URL
+            function obterParametro(nome) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(nome);
             }
 
             // Função para adicionar um item à playlist
             function adicionarItemPlaylist() {
+                // Obter parâmetros de consulta da URL
                 const nomeMusica = obterParametro('nomeMusica');
                 const linkYoutube = obterParametro('linkYoutube');
                 const linkCifrasClub = obterParametro('linkCifrasClub');
@@ -109,15 +142,17 @@
                 const dataSelecionada = obterParametro('dataSelecionada');
                 const tonalidadeSelecionada = obterParametro('tonalidadeSelecionada');
                 
+                // Construir a URL da parte 1 com os parâmetros
                 const urlParte1 = `https://is-moraes.github.io/louvor_generator/formulario.html#?nomeMusica=${encodeURIComponent(nomeMusica)}&linkYoutube=${encodeURIComponent(linkYoutube)}&linkCifrasClub=${encodeURIComponent(linkCifrasClub)}&vozSelecionada=${encodeURIComponent(vozSelecionada)}&dataSelecionada=${encodeURIComponent(dataSelecionada)}&tonalidadeSelecionada=${encodeURIComponent(tonalidadeSelecionada)}`;
 
+                // Adicionar o item à playlist
                 const playlistItem = `
                     <div class="playlistItem">
                         <strong>${nomeMusica}</strong>
                         <br>
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/${linkYoutube}" frameborder="0" allowfullscreen></iframe>
+                        <a href="#" onclick="reproduzirVideo('${linkYoutube}')">Assistir Video YouTube</a>
                         <br>
-                        <iframe width="100%" height="480" src="${linkCifrasClub}" frameborder="0" allowfullscreen></iframe>
+                        <a href="#" onclick="visualizarCifra('${linkCifrasClub}')">Cifra</a>
                         <br>
                         <span>Voz: ${vozSelecionada}</span>
                         <br>
@@ -125,22 +160,29 @@
                         <br>
                         <span>Tonalidade: ${tonalidadeSelecionada}</span>
                         <br>
-                        <a href="${urlParte1}">Editar</a>
+                        <a href="${urlParte1}">Editar</a> <!-- Adiciona um link para editar na parte 1 -->
                         <button onclick="fecharItem()">Fechar</button>
                     </div>
                 `;
                 
+                // Adicionar o item à lista
                 const playlistItens = document.getElementById('playlistItens');
                 const listItem = document.createElement('li');
                 listItem.innerHTML = playlistItem;
                 playlistItens.appendChild(listItem);
 
-                document.getElementById('formulario').style.display = 'none';
+                // Exibir a div da playlist
                 document.getElementById('playlist').style.display = 'block';
             }
 
             // Chame a função para adicionar um item à playlist
             adicionarItemPlaylist();
+
+            // Função para limpar a playlist
+            function limparPlaylist() {
+                const playlistItens = document.getElementById('playlistItens');
+                playlistItens.innerHTML = ''; // Remove todos os itens da playlist
+            }
         });
     </script>
 </body>
