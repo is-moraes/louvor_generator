@@ -84,6 +84,7 @@
         <button onclick="limparPlaylist()">Limpar Playlist</button>
         <ul id="playlistItens"></ul>
         <button onclick="voltarParaCadastro()">Voltar para o Cadastro</button>
+        <button onclick="adicionarNovoRegistro()">Adicionar Novo Registro</button>
     </div>
 
     <div id="videoContainer">
@@ -133,15 +134,7 @@
             }
 
             // Função para adicionar um item à playlist
-            function adicionarItemPlaylist() {
-                // Obter parâmetros de consulta da URL
-                const nomeMusica = obterParametro('nomeMusica');
-                const linkYoutube = obterParametro('linkYoutube');
-                const linkCifrasClub = obterParametro('linkCifrasClub');
-                const vozSelecionada = obterParametro('vozSelecionada');
-                const dataSelecionada = obterParametro('dataSelecionada');
-                const tonalidadeSelecionada = obterParametro('tonalidadeSelecionada');
-                
+            function adicionarItemPlaylist(nomeMusica, linkYoutube, linkCifrasClub, vozSelecionada, dataSelecionada, tonalidadeSelecionada) {
                 // Construir a URL da parte 1 com os parâmetros
                 const urlParte1 = `https://is-moraes.github.io/louvor_generator/formulario.html#?nomeMusica=${encodeURIComponent(nomeMusica)}&linkYoutube=${encodeURIComponent(linkYoutube)}&linkCifrasClub=${encodeURIComponent(linkCifrasClub)}&vozSelecionada=${encodeURIComponent(vozSelecionada)}&dataSelecionada=${encodeURIComponent(dataSelecionada)}&tonalidadeSelecionada=${encodeURIComponent(tonalidadeSelecionada)}`;
 
@@ -176,12 +169,42 @@
             }
 
             // Chame a função para adicionar um item à playlist
-            adicionarItemPlaylist();
+            adicionarItemPlaylist(
+                obterParametro('nomeMusica'),
+                obterParametro('linkYoutube'),
+                obterParametro('linkCifrasClub'),
+                obterParametro('vozSelecionada'),
+                obterParametro('dataSelecionada'),
+                obterParametro('tonalidadeSelecionada')
+            );
 
             // Função para limpar a playlist
             function limparPlaylist() {
                 const playlistItens = document.getElementById('playlistItens');
                 playlistItens.innerHTML = ''; // Remove todos os itens da playlist
+            }
+
+            // Função para adicionar um novo registro à playlist
+            function adicionarNovoRegistro() {
+                // Simule dados fictícios para um novo registro
+                const novoRegistro = {
+                    nomeMusica: "Nova Música",
+                    linkYoutube: "https://www.youtube.com/watch?v=abcdefghijk",
+                    linkCifrasClub: "https://www.cifrasclub.com.br/cifra/abcdefghijk",
+                    vozSelecionada: "Voz Principal",
+                    dataSelecionada: "2023-12-31",
+                    tonalidadeSelecionada: "C"
+                };
+
+                // Adicione o novo registro à playlist
+                adicionarItemPlaylist(
+                    novoRegistro.nomeMusica,
+                    novoRegistro.linkYoutube,
+                    novoRegistro.linkCifrasClub,
+                    novoRegistro.vozSelecionada,
+                    novoRegistro.dataSelecionada,
+                    novoRegistro.tonalidadeSelecionada
+                );
             }
         });
     </script>
