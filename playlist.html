@@ -157,26 +157,30 @@
 
                 // Adicionar o item à playlist
                 const playlistItem = `
-                    <div class="playlistItem">
-                        <strong>${nomeMusica}</strong>
-                        <br>
-                        <br> </br>
-                        <a href="#" onclick="reproduzirVideo('${linkYoutube}')">Assistir Video YouTube</a>
-                        <br>
-                        <a href="#" onclick="visualizarCifra('${linkCifrasClub}')">Cifra</a>
-                        <br>
-                        <br> </br>
-                        <span>Voz: ${vozSelecionada}</span>
-                        <br>
-                        <span>Data: ${dataSelecionada}</span>
-                        <br>
-                        <span>Tonalidade: ${tonalidadeSelecionada}</span>
-                        <br>
-                        <a href="${urlParte1}">Editar</a> <!-- Adiciona um link para editar na parte 1 -->
-                        <br> </br>
-                        <button onclick="fecharItem()">Fechar</button>
-                    </div>
-                `;
+    <div class="playlistItem">
+        <strong>${nomeMusica}</strong>
+        <br>
+        <br> </br>
+        <a href="videoContainer" onclick="reproduzirVideo('${linkYoutube}')">Assistir Video YouTube</a>
+        <br>
+        <a href="cifraContainer" onclick="visualizarCifra('${linkCifrasClub}')">Cifra</a>
+        <br>
+        <br> </br>
+        <span>Voz: ${vozSelecionada}</span>
+        <br>
+        <span>Data: ${dataSelecionada}</span>
+        <br>
+        <span>Tonalidade: ${tonalidadeSelecionada}</span>
+        <br>
+        <a href="${urlParte1}">Editar</a> <!-- Adiciona um link para editar na parte 1 -->
+        <br>
+        <span>Link YouTube: <a href="${linkYoutube}" target="_blank">${linkYoutube}</a></span>
+        <br>
+        <span>Link Cifras Club: <a href="${linkCifrasClub}" target="_blank">${linkCifrasClub}</a></span>
+        <br> </br>
+        <button onclick="fecharItem()">Fechar</button>
+    </div>
+`;
 
                 // Adicionar o item à lista
                 const playlistItens = document.getElementById('playlistItens');
