@@ -12,11 +12,7 @@
             font-family: Arial, sans-serif;
         }
 
-        #formulario,
-        #playlist,
-        #novocadastro,
-        #videoContainer,
-        #cifraContainer {
+        #formulario, #playlist, #novocadastro, #videoContainer, #cifraContainer {
             max-width: 900px;
             margin: 50px auto;
             background-color: #004639;
@@ -24,10 +20,7 @@
             border-radius: 10px;
         }
 
-        #playlist,
-        #novocadastro,
-        #videoContainer,
-        #cifraContainer {
+        #playlist, #novocadastro, #videoContainer, #cifraContainer {
             display: none;
         }
 
@@ -170,19 +163,18 @@
                         <br> </br>
                         <a href="#" onclick="reproduzirVideo('${linkYoutube}')">Assistir Video YouTube</a>
                         <br>
-                        <br> </br>
                         <a href="#" onclick="visualizarCifra('${linkCifrasClub}')">Cifra</a>
                         <br>
                         <br> </br>
                         <span>Voz: ${vozSelecionada}</span>
                         <br>
-                        <br> </br>
                         <span>Data: ${dataSelecionada}</span>
                         <br>
-                        <br> </br>
                         <span>Tonalidade: ${tonalidadeSelecionada}</span>
                         <br>
+                        <br> </br>
                         <a href="${urlParte1}">Editar</a> <!-- Adiciona um link para editar na parte 1 -->
+                        <br> </br>
                         <button onclick="fecharItem()">Fechar</button>
                     </div>
                 `;
