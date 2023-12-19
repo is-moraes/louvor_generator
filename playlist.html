@@ -121,8 +121,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('linkYoutube').addEventListener('input', atualizarPrevia);
+            // Elemento preview
+            document.getElementById('playlist').addEventListener('input', atualizarPrevia);
 
+            // Função para extrair o ID do vídeo do link do YouTube
             function extrairVideoId(linkYoutube) {
                 const regex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
                 const match = linkYoutube.match(regex);
@@ -134,25 +136,33 @@
                 return null;
             }
 
+            // Função para atualizar a prévia
             function atualizarPrevia() {
-                const linkYoutube = document.getElementById('linkYoutube').value;
+                const linkYoutube = document.getElementById('playlist').value;
                 const preview = document.getElementById('preview');
 
+                // Extrair o ID do vídeo do link do YouTube
                 const videoId = extrairVideoId(linkYoutube);
 
+                // Construir a URL da prévia do vídeo
                 const previewUrl = `https://img.youtube.com/vi/${videoId}/0.jpg`;
 
+                // Atualizar a imagem de prévia
                 preview.src = previewUrl;
             }
 
+            // Função para obter parâmetros de consulta da URL
             function obterParametro(nome) {
                 const urlParams = new URLSearchParams(window.location.search);
                 return urlParams.get(nome);
             }
 
+            // Função para adicionar um item à playlist
             function adicionarItemPlaylist(nomeMusica, linkYoutube, linkCifrasClub, vozSelecionada, dataSelecionada, tonalidadeSelecionada) {
+                // Construir a URL da parte 1 com os parâmetros
                 const urlParte1 = `https://is-moraes.github.io/louvor_generator/formulario.html#?nomeMusica=${encodeURIComponent(nomeMusica)}&linkYoutube=${encodeURIComponent(linkYoutube)}&linkCifrasClub=${encodeURIComponent(linkCifrasClub)}&vozSelecionada=${encodeURIComponent(vozSelecionada)}&dataSelecionada=${encodeURIComponent(dataSelecionada)}&tonalidadeSelecionada=${encodeURIComponent(tonalidadeSelecionada)}`;
 
+                // Adicionar o item à playlist
                 const playlistItem = `
                     <div class="playlistItem">
                         <strong>${nomeMusica}</strong>
@@ -167,19 +177,22 @@
                         <br>
                         <span>Tonalidade: ${tonalidadeSelecionada}</span>
                         <br>
-                        <a href="${urlParte1}">Editar</a>
+                        <a href="${urlParte1}">Editar</a> <!-- Adiciona um link para editar na parte 1 -->
                         <button onclick="fecharItem()">Fechar</button>
                     </div>
                 `;
 
+                // Adicionar o item à lista
                 const playlistItens = document.getElementById('playlistItens');
                 const listItem = document.createElement('li');
                 listItem.innerHTML = playlistItem;
                 playlistItens.appendChild(listItem);
 
+                // Exibir a div da playlist
                 document.getElementById('playlist').style.display = 'block';
             }
 
+            // Chame a função para adicionar um item à playlist
             adicionarItemPlaylist(
                 obterParametro('nomeMusica'),
                 obterParametro('linkYoutube'),
@@ -189,12 +202,15 @@
                 obterParametro('tonalidadeSelecionada')
             );
 
+            // Função para limpar a playlist
             function limparPlaylist() {
                 const playlistItens = document.getElementById('playlistItens');
-                playlistItens.innerHTML = '';
+                playlistItens.innerHTML = ''; // Remove todos os itens da playlist
             }
 
+            // Função para adicionar um novo registro à playlist
             function adicionarNovoRegistro() {
+                // Simule dados fictícios para um novo registro
                 const novoRegistro = {
                     nomeMusica: "Nova Música",
                     linkYoutube: "https://www.youtube.com/watch?v=abcdefghijk",
@@ -204,6 +220,7 @@
                     tonalidadeSelecionada: "C"
                 };
 
+                // Adicione o novo registro à playlist
                 adicionarItemPlaylist(
                     novoRegistro.nomeMusica,
                     novoRegistro.linkYoutube,
@@ -213,73 +230,8 @@
                     novoRegistro.tonalidadeSelecionada
                 );
             }
-
-            function reproduzirVideo(linkYoutube) {
-            const videoContainer = document.getElementById('videoContainer');
-            const videoPlayer = document.getElementById('videoPlayer');
-
-            // Extrair o ID do vídeo do link do YouTube
-            const videoId = extrairVideoId(linkYoutube);
-
-            // Construir a URL do vídeo incorporado
-            const videoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-
-            // Definir a origem do iframe para reproduzir o vídeo
-            videoPlayer.src = videoUrl;
-
-            // Exibir o contêiner do vídeo
-            videoContainer.style.display = 'block';
-        }
-
-        function fecharVideo() {
-            const videoContainer = document.getElementById('videoContainer');
-            const videoPlayer = document.getElementById('videoPlayer');
-
-            // Parar a reprodução do vídeo
-            videoPlayer.src = '';
-
-            // Ocultar o contêiner do vídeo
-            videoContainer.style.display = 'none';
-        }
-
-        function visualizarCifra(linkCifrasClub) {
-            const cifraContainer = document.getElementById('cifraContainer');
-            const cifra = document.getElementById('cifra');
-
-            // Definir a origem do iframe para visualizar a cifra
-            cifra.src = linkCifrasClub;
-
-            // Exibir o contêiner da cifra
-            cifraContainer.style.display = 'block';
-        }
-
-            function fecharItem() {
-                // Adicione aqui a lógica para fechar o item
-                console.log("Fechando item");
-            }
-
-            
-
-            function fecharCifra() {
-            const cifraContainer = document.getElementById('cifraContainer');
-            const cifra = document.getElementById('cifra');
-
-            // Parar a visualização da cifra
-            cifra.src = '';
-
-            // Ocultar o contêiner da cifra
-            cifraContainer.style.display = 'none';
-        }
-
-        function novoCadastro() {
-            // Limpar os campos e ocultar a div da playlist e o botão de Novo Cadastro
-            document.getElementById('formulario').reset();
-            document.getElementById('playlist').style.display = 'none';
-            document.getElementById('novocadastro').style.display = 'none';
-            document.getElementById('formulario').style.display = 'block';
-        }
-        
-        })
+        });
     </script>
 </body>
+
 </html>
