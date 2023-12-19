@@ -167,14 +167,19 @@
                     <div class="playlistItem">
                         <strong>${nomeMusica}</strong>
                         <br>
+                        <br> </br>
                         <a href="#" onclick="reproduzirVideo('${linkYoutube}')">Assistir Video YouTube</a>
                         <br>
+                        <br> </br>
                         <a href="#" onclick="visualizarCifra('${linkCifrasClub}')">Cifra</a>
                         <br>
+                        <br> </br>
                         <span>Voz: ${vozSelecionada}</span>
                         <br>
+                        <br> </br>
                         <span>Data: ${dataSelecionada}</span>
                         <br>
+                        <br> </br>
                         <span>Tonalidade: ${tonalidadeSelecionada}</span>
                         <br>
                         <a href="${urlParte1}">Editar</a> <!-- Adiciona um link para editar na parte 1 -->
@@ -230,6 +235,63 @@
                     novoRegistro.tonalidadeSelecionada
                 );
             }
+
+            function reproduzirVideo(linkYoutube) {
+            const videoContainer = document.getElementById('videoContainer');
+            const videoPlayer = document.getElementById('videoPlayer');
+
+            // Extrair o ID do vídeo do link do YouTube
+            const videoId = extrairVideoId(linkYoutube);
+
+            // Construir a URL do vídeo incorporado
+            const videoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+
+            // Definir a origem do iframe para reproduzir o vídeo
+            videoPlayer.src = videoUrl;
+
+            // Exibir o contêiner do vídeo
+            videoContainer.style.display = 'block';
+        }
+
+        function fecharVideo() {
+            const videoContainer = document.getElementById('videoContainer');
+            const videoPlayer = document.getElementById('videoPlayer');
+
+            // Parar a reprodução do vídeo
+            videoPlayer.src = '';
+
+            // Ocultar o contêiner do vídeo
+            videoContainer.style.display = 'none';
+        }
+
+        function visualizarCifra(linkCifrasClub) {
+            const cifraContainer = document.getElementById('cifraContainer');
+            const cifra = document.getElementById('cifra');
+
+            // Definir a origem do iframe para visualizar a cifra
+            cifra.src = linkCifrasClub;
+
+            // Exibir o contêiner da cifra
+            cifraContainer.style.display = 'block';
+        }
+            function fecharCifra() {
+            const cifraContainer = document.getElementById('cifraContainer');
+            const cifra = document.getElementById('cifra');
+
+            // Parar a visualização da cifra
+            cifra.src = '';
+
+            // Ocultar o contêiner da cifra
+            cifraContainer.style.display = 'none';
+        }
+
+        function voltarParaCadastro() {
+            // Ocultar a div da playlist, o botão de Novo Cadastro e exibir a div do formulário
+            document.getElementById('playlist').style.display = 'none';
+            document.getElementById('novocadastro').style.display = 'none';
+            document.getElementById('formulario').style.display = 'block';
+        }
+
         });
     </script>
 </body>
