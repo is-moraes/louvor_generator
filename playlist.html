@@ -172,7 +172,6 @@
                         <br>
                         <span>Tonalidade: ${tonalidadeSelecionada}</span>
                         <br>
-                        <br> </br>
                         <a href="${urlParte1}">Editar</a> <!-- Adiciona um link para editar na parte 1 -->
                         <br> </br>
                         <button onclick="fecharItem()">Fechar</button>
@@ -279,6 +278,14 @@
 
         function voltarParaCadastro() {
             // Ocultar a div da playlist, o botão de Novo Cadastro e exibir a div do formulário
+            document.getElementById('playlist').style.display = 'none';
+            document.getElementById('novocadastro').style.display = 'none';
+            document.getElementById('formulario').style.display = 'block';
+        }
+
+        function novoCadastro() {
+            // Limpar os campos e ocultar a div da playlist e o botão de Novo Cadastro
+            document.getElementById('formulario').reset();
             document.getElementById('playlist').style.display = 'none';
             document.getElementById('novocadastro').style.display = 'none';
             document.getElementById('formulario').style.display = 'block';
