@@ -112,6 +112,31 @@
         <button onclick="fecharCifra()">Fechar Cifra</button>
     </div>
 
+    <div id="novocadastro">
+    <h2>Novo Cadastro</h2>
+    <form id="formulario">
+        <label for="nomeMusica">Nome da Música:</label>
+        <input type="text" id="nomeMusica" name="nomeMusica" required>
+
+        <label for="linkYoutube">Link do YouTube:</label>
+        <input type="text" id="linkYoutube" name="linkYoutube" required>
+
+        <label for="linkCifrasClub">Link do Cifras Club:</label>
+        <input type="text" id="linkCifrasClub" name="linkCifrasClub" required>
+
+        <label for="vozSelecionada">Voz:</label>
+        <input type="text" id="vozSelecionada" name="vozSelecionada" required>
+
+        <label for="dataSelecionada">Data:</label>
+        <input type="text" id="dataSelecionada" name="dataSelecionada" required>
+
+        <label for="tonalidadeSelecionada">Tonalidade:</label>
+        <input type="text" id="tonalidadeSelecionada" name="tonalidadeSelecionada" required>
+
+        <button type="button" id="novocadastro-btn" onclick="adicionarNovoRegistro()">Adicionar Novo Registro</button>
+    </form>
+</div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Elemento preview
