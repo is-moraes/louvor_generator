@@ -113,9 +113,9 @@
     </div>
 
     <div id="novocadastro">
-    <h2>Novo Cadastro</h2>
-    <form id="formulario">
-        <label for="nomeMusica">Nome da Música:</label>
+        <h2>Novo Cadastro</h2>
+        <form id="formulario">
+            <label for="nomeMusica">Nome da Música:</label>
         <input type="text" id="nomeMusica" name="nomeMusica" required>
 
         <label for="linkYoutube">Link do YouTube:</label>
@@ -132,31 +132,30 @@
 
         <label for="tonalidadeSelecionada">Tonalidade:</label>
         <input type="text" id="tonalidadeSelecionada" name="tonalidadeSelecionada" required>
-
-        <button type="submit" id="novocadastro-btn" onclick="adicionarNovoRegistro()">Adicionar Novo Registro</button>
-    </form>
-</div>
+            <button type="submit" id="novocadastro-btn" onclick="adicionarNovoRegistro()">Adicionar Novo Registro</button>
+        </form>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Elemento preview
             document.getElementById('playlist').addEventListener('input', atualizarPrevia);
 
-            // Função para extrair o ID do vídeo do link do YouTube
-            function extrairVideoId(linkYoutube) {
-                const regex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-                const match = linkYoutube.match(regex);
-
-                if (match && match[1]) {
-                    return match[1];
-                }
-
-                return null;
+            function adicionarNovoRegistro() {
+                // Ocultar a div da playlist e exibir a div do formulário
+                document.getElementById('playlist').style.display = 'none';
+                document.getElementById('novocadastro').style.display = 'block';
             }
-            // Função para limpar a playlist
+
+            function voltarParaCadastro() {
+                // Ocultar a div da playlist, o botão de Novo Cadastro e exibir a div do formulário
+                document.getElementById('playlist').style.display = 'none';
+                document.getElementById('novocadastro').style.display = 'none';
+                document.getElementById('formulario').style.display = 'block';
+            }
+
             function limparPlaylist() {
                 const playlistItens = document.getElementById('playlistItens');
-                playlistItens.innerHTML = 'limparPlaylist'; // Remove todos os itens da playlist
+                playlistItens.innerHTML = ''; // Remove todos os itens da playlist
             }
 
             // Função para atualizar a prévia
@@ -308,8 +307,6 @@
             document.getElementById('novocadastro').style.display = 'none';
             document.getElementById('formulario').style.display = 'block';
         }
-
-       
         });
     </script>
 </body>
