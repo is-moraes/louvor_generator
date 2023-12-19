@@ -97,34 +97,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('linkYoutube').addEventListener('input', atualizarPrevia);
-
-            function atualizarPrevia() {
-                const linkYoutube = document.getElementById('linkYoutube').value;
-                const preview = document.getElementById('preview');
-
-                // Extrair o ID do vídeo do link do YouTube
-                const videoId = extrairVideoId(linkYoutube);
-
-                // Construir a URL da prévia do vídeo
-                const previewUrl = `https://img.youtube.com/vi/${videoId}/0.jpg`;
-
-                // Atualizar a imagem de prévia
-                preview.src = previewUrl;
-            }
-
-            function extrairVideoId(linkYoutube) {
-                // Extrair o ID do vídeo do link do YouTube
-                const regex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-                const match = linkYoutube.match(regex);
-
-                if (match && match[1]) {
-                    return match[1];
-                }
-
-                return null;
-            }
-
             // Função para obter parâmetros de consulta da URL
             function obterParametro(nome) {
                 const urlParams = new URLSearchParams(window.location.search);
@@ -149,9 +121,9 @@
                     <div class="playlistItem">
                         <strong>${nomeMusica}</strong>
                         <br>
-                        <a href="#" onclick="reproduzirVideo('${linkYoutube}')">Assistir Video YouTube</a>
+                        <a href="#">Assistir Video YouTube</a>
                         <br>
-                        <a href="#" onclick="visualizarCifra('${linkCifrasClub}')">Cifra</a>
+                        <a href="#">Cifra</a>
                         <br>
                         <span>Voz: ${vozSelecionada}</span>
                         <br>
