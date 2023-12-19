@@ -138,7 +138,7 @@
                 const videoId = extrairVideoId(linkYoutube);
 
                 // Construir a URL da prévia do vídeo
-                const previewUrl = `https://img.youtube.com/vi/${videoId}/0.jpg`;
+                const previewUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
 
                 // Atualizar a imagem de prévia
                 preview.src = previewUrl;
@@ -159,11 +159,6 @@
                 const playlistItem = `
     <div class="playlistItem">
         <strong>${nomeMusica}</strong>
-        <br>
-        <br> </br>
-        <a href="videoContainer" onclick="reproduzirVideo('${linkYoutube}')">Assistir Video YouTube</a>
-        <br>
-        <a href="cifraContainer" onclick="visualizarCifra('${linkCifrasClub}')">Cifra</a>
         <br>
         <br> </br>
         <span>Voz: ${vozSelecionada}</span>
@@ -269,6 +264,7 @@
             // Exibir o contêiner da cifra
             cifraContainer.style.display = 'block';
         }
+
         function fecharCifra() {
             const cifraContainer = document.getElementById('cifraContainer');
             const cifra = document.getElementById('cifra');
