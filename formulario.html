@@ -118,23 +118,20 @@
             return `${partes[2]}/${partes[1]}/${partes[0]}`;
         }
         function processarFormulario() {
-            const nomeMusica = document.getElementById('nome').value;
-            const linkYoutube = document.getElementById('linkYoutube').value;
-            const linkCifrasClub = document.getElementById('linkCifrasClub').value;
-            const vozSelecionada = document.getElementById('voz').value;
-            const dataSelecionada = formatarData(document.getElementById('data').value);
-            const arquivoMP3 = document.getElementById('arquivoMP3').files[0];
-            const tonalidadeSelecionada = document.getElementById('tonalidade').value;
+    const nomeMusica = document.getElementById('nome').value;
+    const linkYoutube = document.getElementById('linkYoutube').value;
+    const linkCifrasClub = document.getElementById('linkCifrasClub').value;
+    const vozSelecionada = document.getElementById('voz').value;
+    const dataSelecionada = formatarData(document.getElementById('data').value);
+    const arquivoMP3 = document.getElementById('arquivoMP3').files[0];
+    const tonalidadeSelecionada = document.getElementById('tonalidade').value;
 
-            // Adicionar os dados como parâmetros de consulta na URL
-            const parametros = `https://is-moraes.github.io/louvor_generator/playlist.html?nomeMusica=${encodeURIComponent(nomeMusica)}&linkYoutube=${encodeURIComponent(linkYoutube)}&linkCifrasClub=${encodeURIComponent(linkCifrasClub)}&vozSelecionada=${encodeURIComponent(vozSelecionada)}&dataSelecionada=${encodeURIComponent(dataSelecionada)}&tonalidadeSelecionada=${encodeURIComponent(tonalidadeSelecionada)}`;
-            //const parametros = `https://is-moraes.github.io/louvor_generator/playlist.html${encodeURIComponent(nomeMusica)}&linkYoutube=${encodeURIComponent(linkYoutube)}&linkCifrasClub=${encodeURIComponent(linkCifrasClub)}&vozSelecionada=${encodeURIComponent(vozSelecionada)}&dataSelecionada=${encodeURIComponent(dataSelecionada)}&tonalidadeSelecionada=${encodeURIComponent(tonalidadeSelecionada)}`;
-           // const urlPlaylist = `https://is-moraes.github.io/louvor_generator/playlist.html#?nomeMusica=${encodeURIComponent(nomeMusica)}&linkYoutube=${encodeURIComponent(linkYoutube)}&linkCifrasClub=${encodeURIComponent(linkCifrasClub)}&vozSelecionada=${encodeURIComponent(vozSelecionada)}&dataSelecionada=${encodeURIComponent(dataSelecionada)}&tonalidadeSelecionada=${encodeURIComponent(tonalidadeSelecionada)}`;
+    // Adicionar os dados como parâmetros de consulta na URL
+    const parametros = `?nomeMusica=${encodeURIComponent(nomeMusica)}&linkYoutube=${encodeURIComponent(linkYoutube)}&linkCifrasClub=${encodeURIComponent(linkCifrasClub)}&vozSelecionada=${encodeURIComponent(vozSelecionada)}&dataSelecionada=${encodeURIComponent(dataSelecionada)}&tonalidadeSelecionada=${encodeURIComponent(tonalidadeSelecionada)}`;
 
-            // Redirecionar para a página da playlist
-            window.location.href = urlPlaylist;
-            window.location.href = parametros;
-        }
+    // Redirecionar para a página da playlist
+    window.location.href = `https://is-moraes.github.io/louvor_generator/playlist.html${parametros}`;
+}
 
         function reproduzirVideo(linkYoutube) {
             const videoContainer = document.getElementById('videoContainer');
