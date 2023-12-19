@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Playlist da Semana!</title>
     <style>
-        body {
+      body {
             background: linear-gradient(to right, #084e43, #809a93);
             color: #ffffff;
             font-family: Arial, sans-serif;
@@ -79,19 +79,28 @@
     </style>
 </head>
 <body>
-    <div id="playlist">
-        <h2>Playlist</h2>
+    <div id="formulario">
+       <h2>Playlist</h2>
         <ul id="playlistItens"></ul>
         <button onclick="voltarParaCadastro()">Voltar para o Cadastro</button>
     </div>
 
+    <div id="playlist">
+        <h2>Playlist</h2>
+        <ul id="playlistItens"></ul>
+        <button onclick="voltarParaCadastro()">Voltar para o Cadastro</button>
+        <button onclick="exibirFormulario()">Adicionar Novo Registro</button>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            function obterParametro(nome) {
-                const urlParams = new URLSearchParams(window.location.search);
-                return urlParams.get(nome);
+            // Função para exibir o formulário
+            function exibirFormulario() {
+                document.getElementById('formulario').style.display = 'block';
+                document.getElementById('playlist').style.display = 'none';
             }
-            
+
+            // Função para adicionar um item à playlist
             function adicionarItemPlaylist() {
                 const nomeMusica = obterParametro('nomeMusica');
                 const linkYoutube = obterParametro('linkYoutube');
@@ -106,7 +115,7 @@
                     <div class="playlistItem">
                         <strong>${nomeMusica}</strong>
                         <br>
-                        <iframe width="560" height="315" src="${linkYoutube}" frameborder="0" allowfullscreen></iframe>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/${linkYoutube}" frameborder="0" allowfullscreen></iframe>
                         <br>
                         <iframe width="100%" height="480" src="${linkCifrasClub}" frameborder="0" allowfullscreen></iframe>
                         <br>
@@ -126,9 +135,11 @@
                 listItem.innerHTML = playlistItem;
                 playlistItens.appendChild(listItem);
 
+                document.getElementById('formulario').style.display = 'none';
                 document.getElementById('playlist').style.display = 'block';
             }
 
+            // Chame a função para adicionar um item à playlist
             adicionarItemPlaylist();
         });
     </script>
