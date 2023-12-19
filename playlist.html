@@ -77,21 +77,6 @@
             height: 720px;
         }
     </style>
-    <div id="playlist">
-        <h2>Playlist</h2>
-        <ul id="playlistItens"></ul>
-        <button onclick="voltarParaCadastro()">Voltar para o Cadastro</button>
-    </div>
-
-    <div id="videoContainer">
-  <div id="videoContainer">
-        <iframe id="videoPlayer" frameborder="0" allowfullscreen></iframe>
-        <button onclick="fecharVideo()">Fechar Vídeo</button>
-    </div>
-    <div id="cifraContainer">
-        <iframe id="cifra" frameborder="0" allowfullscreen></iframe>
-        <button onclick="fecharCifra()">Fechar Cifra</button>
-    </div>
 </head>
 <body>
     <div id="playlist">
@@ -100,14 +85,34 @@
         <button onclick="voltarParaCadastro()">Voltar para o Cadastro</button>
     </div>
 
+    <div id="videoContainer">
+        <iframe id="videoPlayer" frameborder="0" allowfullscreen></iframe>
+        <button onclick="fecharVideo()">Fechar Vídeo</button>
+    </div>
+
+    <div id="cifraContainer">
+        <iframe id="cifra" frameborder="0" allowfullscreen></iframe>
+        <button onclick="fecharCifra()">Fechar Cifra</button>
+    </div>
+
     <script>
-         document.getElementById('linkYoutube').addEventListener('input', atualizarPrevia);
+        document.getElementById('linkYoutube').addEventListener('input', atualizarPrevia);
 
         function atualizarPrevia() {
             const linkYoutube = document.getElementById('linkYoutube').value;
             const preview = document.getElementById('preview');
 
-            function extrairVideoId(linkYoutube) {
+            // Extrair o ID do vídeo do link do YouTube
+            const videoId = extrairVideoId(linkYoutube);
+
+            // Construir a URL da prévia do vídeo
+            const previewUrl = `https://img.youtube.com/vi/${videoId}/0.jpg`;
+
+            // Atualizar a imagem de prévia
+            preview.src = previewUrl;
+        }
+
+        function extrairVideoId(linkYoutube) {
             // Extrair o ID do vídeo do link do YouTube
             const regex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
             const match = linkYoutube.match(regex);
@@ -124,6 +129,8 @@
             // Atualizar a imagem de prévia
             preview.src = previewUrl;
         }
+
+        
 
         // Função para obter parâmetros de consulta da URL
         function obterParametro(nome) {
