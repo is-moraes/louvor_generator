@@ -206,27 +206,27 @@
 
             // Função para adicionar um novo registro à playlist
             function adicionarNovoRegistro() {
-                // Simule dados fictícios para um novo registro
-                const novoRegistro = {
-                    nomeMusica: "Nova Música",
-                    linkYoutube: "https://www.youtube.com/watch?v=abcdefghijk",
-                    linkCifrasClub: "https://www.cifrasclub.com.br/cifra/abcdefghijk",
-                    vozSelecionada: "Voz Principal",
-                    dataSelecionada: "2023-12-31",
-                    tonalidadeSelecionada: "C"
-                };
+    const novoRegistro = {
+        nomeMusica: document.getElementById('nomeMusica').value,
+        linkYoutube: document.getElementById('linkYoutube').value,
+        linkCifrasClub: document.getElementById('linkCifrasClub').value,
+        vozSelecionada: document.getElementById('vozSelecionada').value,
+        dataSelecionada: document.getElementById('dataSelecionada').value,
+        tonalidadeSelecionada: document.getElementById('tonalidadeSelecionada').value
+    };
 
                 // Adicione o novo registro à playlist
                 adicionarItemPlaylist(
                     novoRegistro.nomeMusica,
-                    novoRegistro.linkYoutube,
-                    novoRegistro.linkCifrasClub,
-                    novoRegistro.vozSelecionada,
-                    novoRegistro.dataSelecionada,
-                    novoRegistro.tonalidadeSelecionada
+        novoRegistro.linkYoutube,
+        novoRegistro.linkCifrasClub,
+        novoRegistro.vozSelecionada,
+        novoRegistro.dataSelecionada,
+        novoRegistro.tonalidadeSelecionada
                 );
             }
 
+            
             function reproduzirVideo(linkYoutube) {
             const videoContainer = document.getElementById('videoContainer');
             const videoPlayer = document.getElementById('videoPlayer');
@@ -265,7 +265,7 @@
             // Exibir o contêiner da cifra
             cifraContainer.style.display = 'block';
         }
-            function fecharCifra() {
+        function fecharCifra() {
             const cifraContainer = document.getElementById('cifraContainer');
             const cifra = document.getElementById('cifra');
 
@@ -283,14 +283,7 @@
             document.getElementById('formulario').style.display = 'block';
         }
 
-        function novoCadastro() {
-            // Limpar os campos e ocultar a div da playlist e o botão de Novo Cadastro
-            document.getElementById('formulario').reset();
-            document.getElementById('playlist').style.display = 'none';
-            document.getElementById('novocadastro').style.display = 'none';
-            document.getElementById('formulario').style.display = 'block';
-        }
-
+       
         });
     </script>
 </body>
