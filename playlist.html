@@ -101,6 +101,15 @@
         document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('linkYoutube').addEventListener('input', atualizarPrevia);
 
+            function extrairVideoId(linkYoutube) {
+        // Extrair o ID do vídeo do link do YouTube
+        const regex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+        const match = linkYoutube.match(regex);
+
+        if (match && match[1]) {
+            return match[1];
+        }
+                
             function atualizarPrevia() {
                 const linkYoutube = document.getElementById('linkYoutube').value;
                 const preview = document.getElementById('preview');
@@ -115,15 +124,7 @@
                 preview.src = previewUrl;
             }
 
-            function extrairVideoId(linkYoutube) {
-        // Extrair o ID do vídeo do link do YouTube
-        const regex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-        const match = linkYoutube.match(regex);
-
-        if (match && match[1]) {
-            return match[1];
-        }
-
+            
         return null;
     }
 
