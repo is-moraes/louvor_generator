@@ -70,46 +70,50 @@
         <button onclick="voltarParaCadastro()">Voltar para o Cadastro</button>
     </div>
 
-       <script>
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             const dados = obterDadosDoLocalStorage();
 
             if (dados) {
-                const playlistItens = document.getElementById('playlistItens');
-                const playlistItem = `
-                    <div class="playlistItem">
-                        <strong>${dados.nomeMusica}</strong>
-                        <br>
-                        <a href="#" onclick="reproduzirVideo('${dados.linkYoutube}')">Assistir Video Youtu Video</a>
-                        <br>
-                        <a href="#" onclick="visualizarCifra('${dados.linkCifrasClub}')">Cifra</a>
-                        <br>
-                        <span>Voz: ${dados.vozSelecionada}</span>
-                        <br>
-                        <span>Data: ${dados.dataSelecionada}</span>
-                        <br>
-                        <span>Tonalidade: ${dados.tonalidadeSelecionada}</span>
-                        <br>
-                        <button onclick="fecharItem()">Fechar</button>
-                    </div>
-                `;
-
-                const listItem = document.createElement('li');
-                listItem.innerHTML = playlistItem;
-                playlistItens.appendChild(listItem);
+                dados.forEach(function(item) {
+                    adicionarItemAPlaylist(item);
+                });
             }
         });
 
         function obterDadosDoLocalStorage() {
             const dadosJSON = localStorage.getItem('dadosFormulario');
-            return dadosJSON ? JSON.parse(dadosJSON) : null;
+            return dadosJSON ? JSON.parse(dadosJSON) : [];
         }
 
-        
-            function voltarParaCadastro() {
+        function adicionarItemAPlaylist(item) {
+            const playlistItens = document.getElementById('playlistItens');
+            const playlistItem = `
+                <div class="playlistItem">
+                    <strong>${item.nomeMusica}</strong>
+                    <br>
+                    <a href="#" onclick="reproduzirVideo('${item.linkYoutube}')">Assistir Video Youtu Video</a>
+                    <br>
+                    <a href="#" onclick="visualizarCifra('${item.linkCifrasClub}')">Cifra</a>
+                    <br>
+                    <span>Voz: ${item.vozSelecionada}</span>
+                    <br>
+                    <span>Data: ${item.dataSelecionada}</span>
+                    <br>
+                    <span>Tonalidade: ${item.tonalidadeSelecionada}</span>
+                    <br>
+                    <button onclick="fecharItem()">Fechar</button>
+                </div>
+            `;
+
+            const listItem = document.createElement('li');
+            listItem.innerHTML = playlistItem;
+            playlistItens.appendChild(listItem);
+        }
+
+        function voltarParaCadastro() {
             window.location.href = 'https://is-moraes.github.io/louvor_generator/formulario.html';
         }
-
-        </script>
+    </script>
 </body>
 </html>
