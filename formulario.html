@@ -123,7 +123,7 @@
         </select>
 
         <button onclick="processarFormulario()">Enviar</button>
-        <button id="novocadastro-btn" onclick="novoCadastro()">Novo Cadastro</button>
+        
     </div>
 
     <script>
@@ -164,15 +164,15 @@
             const arquivoMP3 = document.getElementById('arquivoMP3').files[0];
             const tonalidadeSelecionada = document.getElementById('tonalidade').value;
 
-            const dados = {
-                nomeMusica,
-                linkYoutube,
-                linkCifrasClub,
-                vozSelecionada,
-                dataSelecionada,
-                arquivoMP3,
-                tonalidadeSelecionada
-            };
+             const playlistItens = document.getElementById('playlistItens');
+            const listItem = document.createElement('li');
+            listItem.innerHTML = playlistItem;
+            playlistItens.appendChild(listItem);
+
+            document.getElementById('formulario').style.display = 'none';
+            document.getElementById('playlist').style.display = 'block';
+            document.getElementById('novocadastro').style.display = 'block';
+        };
 
             adicionarItemNaPlaylist(dados);
             limparFormulario();
