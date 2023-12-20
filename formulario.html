@@ -11,7 +11,7 @@
             font-family: Arial, sans-serif;
         }
 
-        #formulario {
+        #formulario, #playlist, #novocadastro, #videoContainer, #cifraContainer {
             max-width: 900px;
             margin: 50px auto;
             background-color: #004639;
@@ -123,7 +123,6 @@
         </select>
 
         <button onclick="processarFormulario()">Enviar</button>
-        
     </div>
 
     <script>
@@ -164,7 +163,25 @@
             const arquivoMP3 = document.getElementById('arquivoMP3').files[0];
             const tonalidadeSelecionada = document.getElementById('tonalidade').value;
 
-             const playlistItens = document.getElementById('playlistItens');
+            const playlistItem = `
+                <div class="playlistItem">
+                    <strong>${nomeMusica}</strong>
+                    <br>
+                    <a href="#" onclick="reproduzirVideo('${linkYoutube}')">Assistir Video Youtu Video</a>
+                    <br>
+                    <a href="#" onclick="visualizarCifra('${linkCifrasClub}')">Cifra</a>
+                    <br>
+                    <span>Voz: ${vozSelecionada}</span>
+                    <br>
+                    <span>Data: ${dataSelecionada}</span>
+                    <br>
+                    <span>Tonalidade: ${tonalidadeSelecionada}</span>
+                    <br>
+                    <button onclick="fecharItem()">Fechar</button>
+                </div>
+            `;
+
+            const playlistItens = document.getElementById('playlistItens');
             const listItem = document.createElement('li');
             listItem.innerHTML = playlistItem;
             playlistItens.appendChild(listItem);
@@ -172,56 +189,6 @@
             document.getElementById('formulario').style.display = 'none';
             document.getElementById('playlist').style.display = 'block';
             document.getElementById('novocadastro').style.display = 'block';
-        };
-
-            adicionarItemNaPlaylist(dados);
-            limparFormulario();
-        }
-
-        function adicionarItemNaPlaylist(dados) {
-            const playlistItem = `
-                <li class="playlistItem">
-                    <strong>${dados.nomeMusica}</strong>
-                    <br>
-                    <a href="#" onclick="reproduzirVideo('${dados.linkYoutube}')">Assistir Video Youtube</a>
-                    <br>
-                    <a href="#" onclick="visualizarCifra('${dados.linkCifrasClub}')">Cifra</a>
-                    <br>
-                    <span>Voz: ${dados.vozSelecionada}</span>
-                    <br>
-                    <span>Data: ${dados.dataSelecionada}</span>
-                    <br>
-                    <span>Tonalidade: ${dados.tonalidadeSelecionada}</span>
-                    <br>
-                    <button onclick="fecharItem()">Fechar</button>
-                </li>
-            `;
-
-            const playlistItens = document.getElementById('playlistItens');
-            playlistItens.insertAdjacentHTML('beforeend', playlistItem);
-        }
-
-        function limparFormulario() {
-            document.getElementById('formulario').reset();
-        }
-
-        function reproduzirVideo(linkYoutube) {
-            const videoPlayer = document.getElementById('videoPlayer');
-            const videoId = extrairVideoId(linkYoutube);
-            const videoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-
-            videoPlayer.src = videoUrl;
-            document.getElementById('videoContainer').style.display = 'block';
-        }
-
-        function visualizarCifra(linkCifrasClub) {
-            const cifra = document.getElementById('cifra');
-            cifra.src = linkCifrasClub;
-            document.getElementById('cifraContainer').style.display = 'block';
-        }
-
-        function novoCadastro() {
-            limparFormulario();
         }
     </script>
 </body>
