@@ -11,7 +11,7 @@
             font-family: Arial, sans-serif;
         }
 
-        #formulario, #playlist, #novocadastro, #videoContainer, #cifraContainer {
+        #formulario {
             max-width: 900px;
             margin: 50px auto;
             background-color: #004639;
@@ -163,54 +163,17 @@
             const arquivoMP3 = document.getElementById('arquivoMP3').files[0];
             const tonalidadeSelecionada = document.getElementById('tonalidade').value;
 
-            const playlistItem = `
-                <div class="playlistItem">
-                    <strong>${nomeMusica}</strong>
-                    <br>
-                    <a href="#" onclick="reproduzirVideo('${linkYoutube}')">Assistir Video Youtu Video</a>
-                    <br>
-                    <a href="#" onclick="visualizarCifra('${linkCifrasClub}')">Cifra</a>
-                    <br>
-                    <span>Voz: ${vozSelecionada}</span>
-                    <br>
-                    <span>Data: ${dataSelecionada}</span>
-                    <br>
-                    <span>Tonalidade: ${tonalidadeSelecionada}</span>
-                    <br>
-                    <button onclick="fecharItem()">Fechar</button>
-                </div>
-            `;
-
-            const playlistItens = document.getElementById('playlistItens');
-            const listItem = document.createElement('li');
-            listItem.innerHTML = playlistItem;
-            playlistItens.appendChild(listItem);
-
-            enviarDadosParaServidor({
+            const dados = {
                 nomeMusica,
                 linkYoutube,
                 linkCifrasClub,
                 vozSelecionada,
                 dataSelecionada,
                 tonalidadeSelecionada
-            });
+            };
 
-            document.getElementById('formulario').style.display = 'none';
-            document.getElementById('playlist').style.display = 'block';
-            document.getElementById('novocadastro').style.display = 'block';
-        }
-
-        function enviarDadosParaServidor(dados) {
-            fetch('https://is-moraes.github.io/louvor_generator/playlist.html', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(dados),
-            })
-            .then(response => response.json())
-            .then(data => console.log('Dados enviados com sucesso:', data))
-            .catch(error => console.error('Erro ao enviar dados:', error));
+            localStorage.setItem('dadosFormulario', JSON.stringify(dados));
+            window.location.href = 'https://is-moraes.github.io/louvor_generator/playlist.html';
         }
     </script>
 </body>
