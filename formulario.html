@@ -119,10 +119,12 @@
             <option value="G#">G#</option>
             <option value="A">A</option>
             <option value="A#">A#</option>
-            <option value="B">G</option>
+            <option value="B">B</option>
         </select>
 
         <button onclick="processarFormulario()">Enviar</button>
+
+        <button id="novocadastro-btn" onclick="novoCadastro()">Novo Cadastro</button>
     </div>
 
     <script>
@@ -169,13 +171,66 @@
                 linkCifrasClub,
                 vozSelecionada,
                 dataSelecionada,
+                arquivoMP3,
                 tonalidadeSelecionada
             };
 
-            localStorage.setItem('dadosFormulario', JSON.stringify(dados));
-            window.location.href = 'https://is-moraes.github.io/louvor_generator/playlist.html';
+            adicionarItemNaPlaylist(dados);
+            limparFormulario();
         }
-        
+
+        function adicionarItemNaPlaylist(dados) {
+            const playlistItem = `
+                <div class="playlistItem">
+                    <strong>${dados.nomeMusica}</strong>
+                    <br>
+                    <a href="#" onclick="reproduzirVideo('${dados.linkYoutube}')">Assistir Video Youtu Video</a>
+                    <br>
+                    <a href="#" onclick="visualizarCifra('${dados.linkCifrasClub}')">Cifra</a>
+                    <br>
+                    <span>Voz: ${dados.vozSelecionada}</span>
+                    <br>
+                    <span>Data: ${dados.dataSelecionada}</span>
+                    <br>
+                    <span>Tonalidade: ${dados.tonalidadeSelecionada}</span>
+                    <br>
+                    <button onclick="fecharItem()">Fechar</button>
+                </div>
+            `;
+
+            const playlistItens = document.getElementById('playlistItens');
+            const listItem = document.createElement('li');
+            listItem.innerHTML = playlistItem;
+            playlistItens.appendChild(listItem);
+        }
+
+        function limparFormulario() {
+            // Limpar os campos do formulário
+            document.getElementById('formulario').reset();
+        }
+
+        function reproduzirVideo(linkYoutube) {
+            const videoPlayer = document.getElementById('videoPlayer');
+            const videoId = extrairVideoId(linkYoutube);
+            const videoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+
+            videoPlayer.src = videoUrl;
+            document.getElementById('videoContainer').style.display = 'block';
+        }
+
+        function visualizarCifra(linkCifrasClub) {
+            const cifra = document.getElementById('cifra');
+            cifra.src = linkCifrasClub;
+            document.getElementById('cifraContainer').style.display = 'block';
+        }
+
+        function novoCadastro() {
+            // Limpar os campos do formulário
+            limparFormulario();
+
+            // Redirecionar de volta ao formulário
+            window.location.href = 'https://is-moraes.github.io/louvor_generator/formulario.html';
+        }
     </script>
 </body>
 </html>
