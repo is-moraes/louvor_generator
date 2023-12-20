@@ -54,6 +54,20 @@
         <ul id="playlistItens"></ul>
         <button onclick="voltarParaCadastro()">Voltar para o Cadastro</button>
     </div>
+    
+    <div id="novocadastro">
+        <button id="novocadastro-btn" onclick="novoCadastro()">Novo Cadastro</button>
+    </div>
+
+    <div id="videoContainer">
+        <iframe id="videoPlayer" frameborder="0" allowfullscreen></iframe>
+        <button onclick="fecharVideo()">Fechar Vídeo</button>
+    </div>
+
+    <div id="cifraContainer">
+        <iframe id="cifra" frameborder="0" allowfullscreen></iframe>
+        <button onclick="fecharCifra()">Fechar Cifra</button>
+    </div>
 
     <script>
         window.onload = function () {
