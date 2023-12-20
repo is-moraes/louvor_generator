@@ -109,10 +109,9 @@
             return dadosJSON ? JSON.parse(dadosJSON) : null;
         }
 
-        function voltarParaCadastro() {
-            document.getElementById('playlist').style.display = 'none';
-            document.getElementById('novocadastro').style.display = 'none';
-            document.getElementById('formulario').style.display = 'block';
+        
+            function voltarParaCadastro() {
+            window.location.href = 'https://is-moraes.github.io/louvor_generator/formulario.html';
         }
 
         function novoCadastro() {
