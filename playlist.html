@@ -100,30 +100,109 @@
             listaDados.forEach(dados => adicionarItemNaPlaylist(dados));
         }
 
-        function adicionarItemNaPlaylist(dados) {
+        function processarFormulario() {
+            const nomeMusica = document.getElementById('nome').value;
+            const linkYoutube = document.getElementById('linkYoutube').value;
+            const linkCifrasClub = document.getElementById('linkCifrasClub').value;
+            const vozSelecionada = document.getElementById('voz').value;
+            const dataSelecionada = formatarData(document.getElementById('data').value);
+            const arquivoMP3 = document.getElementById('arquivoMP3').files[0];
+            const tonalidadeSelecionada = document.getElementById('tonalidade').value;
+
+            // Criar um item da playlist
             const playlistItem = `
-                <li class="playlistItem">
-                    <strong>${dados.nomeMusica}</strong>
+                <div class="playlistItem">
+                    <strong>${nomeMusica}</strong>
                     <br>
-                    <a href="#" onclick="reproduzirVideo('${dados.linkYoutube}')">Assistir Video Youtube</a>
+					<br> </br>
+                    <a href="#" onclick="reproduzirVideo('${linkYoutube}')">Assistir Video Youtu Video</a>
+					<br> </br>
+					<a href="#" onclick="visualizarCifra('${linkCifrasClub}')">Cifra</a>
                     <br>
-                    <a href="#" onclick="visualizarCifra('${dados.linkCifrasClub}')">Cifra</a>
+					<br> </br>
+                    <span>Voz: ${vozSelecionada}</span>
                     <br>
-                    <span>Voz: ${dados.vozSelecionada}</span>
+					<br> </br>
+                    <span>Data: ${dataSelecionada}</span>
                     <br>
-                    <span>Data: ${dados.dataSelecionada}</span>
+					<br> </br>
+                    <span>Tonalidade: ${tonalidadeSelecionada}</span>
                     <br>
-                    <span>Tonalidade: ${dados.tonalidadeSelecionada}</span>
-                    <br>
+					<br> </br>
                     <button onclick="fecharItem()">Fechar</button>
-                </li>
+                </div>
             `;
 
+            // Adicionar o item à lista
             const playlistItens = document.getElementById('playlistItens');
-            playlistItens.insertAdjacentHTML('beforeend', playlistItem);
+            const listItem = document.createElement('li');
+            listItem.innerHTML = playlistItem;
+            playlistItens.appendChild(listItem);
+
+            // Exibir a div da playlist e o botão de Novo Cadastro
+            document.getElementById('formulario').style.display = 'none';
+            document.getElementById('playlist').style.display = 'block';
+            document.getElementById('novocadastro').style.display = 'block';
+        }
+
+        function reproduzirVideo(linkYoutube) {
+            const videoContainer = document.getElementById('videoContainer');
+            const videoPlayer = document.getElementById('videoPlayer');
+
+            // Extrair o ID do vídeo do link do YouTube
+            const videoId = extrairVideoId(linkYoutube);
+
+            // Construir a URL do vídeo incorporado
+            const videoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+
+            // Definir a origem do iframe para reproduzir o vídeo
+            videoPlayer.src = videoUrl;
+
+            // Exibir o contêiner do vídeo
+            videoContainer.style.display = 'block';
+        }
+
+        function fecharVideo() {
+            const videoContainer = document.getElementById('videoContainer');
+            const videoPlayer = document.getElementById('videoPlayer');
+
+            // Parar a reprodução do vídeo
+            videoPlayer.src = '';
+
+            // Ocultar o contêiner do vídeo
+            videoContainer.style.display = 'none';
+        }
+
+        function visualizarCifra(linkCifrasClub) {
+            const cifraContainer = document.getElementById('cifraContainer');
+            const cifra = document.getElementById('cifra');
+
+            // Definir a origem do iframe para visualizar a cifra
+            cifra.src = linkCifrasClub;
+
+            // Exibir o contêiner da cifra
+            cifraContainer.style.display = 'block';
+        }
+
+        function fecharCifra() {
+            const cifraContainer = document.getElementById('cifraContainer');
+            const cifra = document.getElementById('cifra');
+
+            // Parar a visualização da cifra
+            cifra.src = '';
+
+            // Ocultar o contêiner da cifra
+            cifraContainer.style.display = 'none';
         }
 
         function voltarParaCadastro() {
+            // Ocultar a div da playlist, o botão de Novo Cadastro e exibir a div do formulário
+            document.getElementById('playlist').style.display = 'none';
+            document.getElementById('novocadastro').style.display = 'none';
+            document.getElementById('formulario').style.display = 'block';
+        }
+
+         function voltarParaCadastro() {
             window.location.href = 'https://is-moraes.github.io/louvor_generator/formulario.html';
         }
     </script>
