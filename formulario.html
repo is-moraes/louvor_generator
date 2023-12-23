@@ -3,40 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário Interativo</title>
+    <title>Playlist da Semana!</title>
     <style>
         body {
             background: linear-gradient(to right, #084e43, #809a93);
             color: #ffffff;
             font-family: Arial, sans-serif;
         }
-
-        #formulario {
+        #formulario, #playlist, #novocadastro, #videoContainer, #cifraContainer {
             max-width: 900px;
             margin: 50px auto;
             background-color: #004639;
             padding: 20px;
             border-radius: 10px;
         }
-
+        #playlist, #novocadastro, #videoContainer, #cifraContainer {
+            display: none;
+        }
         label {
             display: block;
             margin-bottom: 10px;
         }
-
         input, select {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
             box-sizing: border-box;
         }
-
         #preview {
             max-width: 100%;
             height: auto;
             margin-bottom: 15px;
         }
-
         #novocadastro-btn {
             float: right;
             background-color: #3498db;
@@ -46,26 +44,22 @@
             border-radius: 5px;
             cursor: pointer;
         }
-
         #playlistItens {
             list-style: none;
             padding: 0;
         }
-
         .playlistItem {
             margin-bottom: 20px;
             border: 1px solid #1e6b5a;
             padding: 10px;
             border-radius: 5px;
         }
-
         .playlistItem a {
             color: #3498db;
             text-decoration: none;
             margin-right: 10px;
             cursor: pointer;
         }
-
         .playlistItem button {
             background-color: #3498db;
             color: #fff;
@@ -74,107 +68,153 @@
             border-radius: 3px;
             cursor: pointer;
         }
-
-        #videoPlayer, #cifra {
+        #videoPlayer {
+            width: 100%;
+            height: 720px;
+        }
+        #cifra {
             width: 100%;
             height: 720px;
         }
     </style>
 </head>
 <body>
-    <div id="formulario">
-        <label for="nome">Nome da Música (.doc):</label>
-        <input type="text" id="nome" placeholder="Nome da Música">
-
-        <label for="linkYoutube">Link no YouTube/Versão:</label>
-        <input type="text" id="linkYoutube" placeholder="Link do YouTube/Versão">
-
-        <label for="linkCifrasClub">Link do Cifras Club:</label>
-        <input type="text" id="linkCifrasClub" placeholder="Link do Cifras Club">
-
-        <img id="preview" src="" alt="Preview do Vídeo">
-
-        <label for="voz">Voz Principal:</label>
-        <select id="voz">
-            <option value="masculino">Masculino</option>
-            <option value="feminino">Feminino</option>
-        </select>
-
-        <label for="data">Selecione a Data:</label>
-        <input type="date" id="data">
-
-        <label for="arquivoMP3">Track:</label>
-        <input type="file" id="arquivoMP3" accept=".mp3">
-
-        <label for="tonalidade">Selecione a Tonalidade:</label>
-        <select id="tonalidade">
-            <option value="C">C</option>
-            <option value="C#">C#</option>
-            <option value="D">D</option>
-            <option value="D#">D#</option>
-            <option value="E">E</option>
-            <option value="F">F</option>
-            <option value="F#">F#</option>
-            <option value="G">G</option>
-            <option value="G#">G#</option>
-            <option value="A">A</option>
-            <option value="A#">A#</option>
-            <option value="B">G</option>
-        </select>
-
-        <button onclick="processarFormulario()">Enviar</button>
+    <div id="playlist">
+        <h2>Playlist</h2>
+        <button onclick="limparPlaylist()">Limpar Playlist</button>
+        <ul id="playlistItens"></ul>
+        <button onclick="voltarParaCadastro()">Voltar para o Cadastro</button>
+        <button onclick="adicionarNovoRegistro()">Adicionar Novo Registro</button>
     </div>
 
+    <div id="videoContainer">
+        <iframe id="videoPlayer" frameborder="0" allowfullscreen></iframe>
+        <button onclick="fecharVideo()">Fechar Vídeo</button>
+    </div>
+
+    <div id="cifraContainer">
+        <iframe id="cifra" frameborder="0" allowfullscreen></iframe>
+        <button onclick="fecharCifra()">Fechar Cifra</button>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
+
     <script>
-        document.getElementById('linkYoutube').addEventListener('input', atualizarPrevia);
-
-        function atualizarPrevia() {
-            const linkYoutube = document.getElementById('linkYoutube').value;
-            const preview = document.getElementById('preview');
-
-            const videoId = extrairVideoId(linkYoutube);
-            const previewUrl = `https://img.youtube.com/vi/${videoId}/0.jpg`;
-
-            preview.src = previewUrl;
-        }
-
-        function extrairVideoId(linkYoutube) {
-            const regex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-            const match = linkYoutube.match(regex);
-
-            if (match && match[1]) {
-                return match[1];
-            }
-
-            return null;
-        }
-
-        function formatarData(data) {
-            const partes = data.split("-");
-            return `${partes[2]}/${partes[1]}/${partes[0]}`;
-        }
-
-        function processarFormulario() {
-            const nomeMusica = document.getElementById('nome').value;
-            const linkYoutube = document.getElementById('linkYoutube').value;
-            const linkCifrasClub = document.getElementById('linkCifrasClub').value;
-            const vozSelecionada = document.getElementById('voz').value;
-            const dataSelecionada = formatarData(document.getElementById('data').value);
-            const arquivoMP3 = document.getElementById('arquivoMP3').files[0];
-            const tonalidadeSelecionada = document.getElementById('tonalidade').value;
-
-            const dados = {
-                nomeMusica,
-                linkYoutube,
-                linkCifrasClub,
-                vozSelecionada,
-                dataSelecionada,
-                tonalidadeSelecionada
+         document.addEventListener('DOMContentLoaded', function () {
+            // Configuração do Firebase
+            const firebaseConfig = {
+                apiKey: "sua-api-key",
+                authDomain: "seu-auth-domain",
+                projectId: "seu-project-id",
+                storageBucket: "seu-storage-bucket",
+                messagingSenderId: "seu-messaging-sender-id",
+                appId: "seu-app-id",
+                measurementId: "seu-measurement-id"
             };
 
-            localStorage.setItem('dadosFormulario', JSON.stringify(dados));
-            window.location.href = 'https://is-moraes.github.io/louvor_generator/formulario.html';
-        }
+            // Inicializa o Firebase
+            firebase.initializeApp(firebaseConfig);
+            const database = firebase.database();
+
+            // Função para atualizar a prévia do vídeo
+            function atualizarPrevia() {
+                const linkYoutube = document.getElementById('linkYoutube').value;
+                const preview = document.getElementById('preview');
+
+                // Extrair o ID do vídeo do link do YouTube
+                const videoId = extrairVideoId(linkYoutube);
+
+                // Construir a URL da prévia do vídeo
+                const previewUrl = `https://img.youtube.com/vi/${videoId}/0.jpg`;
+
+                // Atualizar a imagem de prévia
+                preview.src = previewUrl;
+            }
+
+            // Função para extrair o ID do vídeo do link do YouTube
+            function extrairVideoId(linkYoutube) {
+                const regex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+                const match = linkYoutube.match(regex);
+
+                if (match && match[1]) {
+                    return match[1];
+                }
+
+                return null;
+            }
+
+            // Função para adicionar um novo registro à playlist
+            function adicionarNovoRegistro() {
+                // Substitua esta parte pelo código que obtém os dados do formulário
+                const novoRegistro = {
+                    nomeMusica: "Nova Música",
+                    linkYoutube: "https://www.youtube.com/watch?v=abcdefghijk",
+                    linkCifrasClub: "https://www.cifrasclub.com.br/cifra/abcdefghijk",
+                    vozSelecionada: "Voz Principal",
+                    dataSelecionada: "2023-12-31",
+                    tonalidadeSelecionada: "C"
+                };
+
+                // Adiciona o novo registro à playlist
+                adicionarItemPlaylist(
+                    novoRegistro.nomeMusica,
+                    novoRegistro.linkYoutube,
+                    novoRegistro.linkCifrasClub,
+                    novoRegistro.vozSelecionada,
+                    novoRegistro.dataSelecionada,
+                    novoRegistro.tonalidadeSelecionada
+                );
+            }
+
+            // Função para adicionar um item à playlist
+            function adicionarItemPlaylist(nomeMusica, linkYoutube, linkCifrasClub, vozSelecionada, dataSelecionada, tonalidadeSelecionada) {
+                // Construir a URL da parte 1 com os parâmetros
+                const urlParte1 = `https://is-moraes.github.io/louvor_generator/formulario.html#?nomeMusica=${encodeURIComponent(nomeMusica)}&linkYoutube=${encodeURIComponent(linkYoutube)}&linkCifrasClub=${encodeURIComponent(linkCifrasClub)}&vozSelecionada=${encodeURIComponent(vozSelecionada)}&dataSelecionada=${encodeURIComponent(dataSelecionada)}&tonalidadeSelecionada=${encodeURIComponent(tonalidadeSelecionada)}`;
+
+                // Adicionar o item à playlist
+                const playlistItem = `
+                    <div class="playlistItem">
+                        <strong>${nomeMusica}</strong>
+                        <br>
+                        <a href="#" onclick="reproduzirVideo('${linkYoutube}')">Assistir Video YouTube</a>
+                        <br>
+                        <a href="#" onclick="visualizarCifra('${linkCifrasClub}')">Cifra</a>
+                        <br>
+                        <span>Voz: ${vozSelecionada}</span>
+                        <br>
+                        <span>Data: ${dataSelecionada}</span>
+                        <br>
+                        <span>Tonalidade: ${tonalidadeSelecionada}</span>
+                        <br>
+                        <a href="${urlParte1}">Editar</a> <!-- Adiciona um link para editar na parte 1 -->
+                        <button onclick="fecharItem()">Fechar</button>
+                    </div>
+                `;
+
+                // Adicionar o item à lista
+                const playlistItens = document.getElementById('playlistItens');
+                const listItem = document.createElement('li');
+                listItem.innerHTML = playlistItem;
+                playlistItens.appendChild(listItem);
+
+                // Exibir a div da playlist
+                document.getElementById('playlist').style.display = 'block';
+            }
+
+            // Função para limpar a playlist
+            function limparPlaylist() {
+                const playlistItens = document.getElementById('playlistItens');
+                playlistItens.innerHTML = ''; // Remove todos os itens da playlist
+
+                // Adiciona a lógica para remover dados do Firebase, se necessário
+                const playlistRef = firebase.database().ref('playlist');
+                playlistRef.remove();
+            }
+
+            // Restante do seu script...
+
+        });
     </script>
 </body>
 </html>
