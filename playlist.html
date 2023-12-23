@@ -55,12 +55,38 @@
         <button onclick="voltarParaCadastro()">Voltar para o Cadastro</button>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
+
     <script>
-        window.onload = function () {
-            const listaDados = JSON.parse(localStorage.getItem('playlist')) || [];
-            const playlistItens = document.getElementById('playlistItens');
-            listaDados.forEach(dados => adicionarItemNaPlaylist(dados));
-        }
+        document.addEventListener('DOMContentLoaded', function () {
+            // Configuração do Firebase
+            const firebaseConfig = {
+                apiKey: "sua-api-key",
+                authDomain: "seu-auth-domain",
+                projectId: "seu-project-id",
+                storageBucket: "seu-storage-bucket",
+                messagingSenderId: "seu-messaging-sender-id",
+                appId: "seu-app-id",
+                measurementId: "seu-measurement-id"
+            };
+
+            // Inicializa o Firebase
+            firebase.initializeApp(firebaseConfig);
+            const database = firebase.database();
+
+            // Referência à coleção 'playlist' no Firebase
+            const playlistRef = database.ref('playlist');
+
+            // Carrega os dados do Firebase e adiciona à playlist
+            playlistRef.once('value', function (snapshot) {
+                const playlistItens = document.getElementById('playlistItens');
+                snapshot.forEach(function (childSnapshot) {
+                    const dados = childSnapshot.val();
+                    adicionarItemNaPlaylist(dados);
+                });
+            });
+        });
 
         function adicionarItemNaPlaylist(dados) {
             const playlistItem = `
@@ -69,14 +95,17 @@
                     <br>
                     <a href="#" onclick="reproduzirVideo('${dados.linkYoutube}')">Assistir Video Youtube</a>
                     <br>
+                    <br> </br>
                     <a href="#" onclick="visualizarCifra('${dados.linkCifrasClub}')">Cifra</a>
                     <br>
                     <span>Voz: ${dados.vozSelecionada}</span>
                     <br>
+                    <br> </br>
                     <span>Data: ${dados.dataSelecionada}</span>
                     <br>
                     <span>Tonalidade: ${dados.tonalidadeSelecionada}</span>
                     <br>
+                    <br> </br>
                     <button onclick="fecharItem()">Fechar</button>
                 </li>
             `;
