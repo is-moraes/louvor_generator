@@ -79,12 +79,44 @@
     </style>
 </head>
 <body>
+    <div id="formulario">
+        <h2>Cadastro</h2>
+        <div id="formulario">
+            <h2>Cadastro de Música</h2>
+            <label for="nomeMusica">Nome da Música:</label>
+            <input type="text" id="nomeMusica" name="nomeMusica" required>
+        
+            <label for="linkYoutube">Link do YouTube:</label>
+            <input type="text" id="linkYoutube" name="linkYoutube" required>
+        
+            <label for="linkCifrasClub">Link do Cifras Club:</label>
+            <input type="text" id="linkCifrasClub" name="linkCifrasClub" required>
+        
+            <label for="vozSelecionada">Voz:</label>
+            <select id="vozSelecionada" name="vozSelecionada" required>
+                <!-- Opções para a voz -->
+                <option value="Voz Principal">Voz Principal</option>
+                <option value="Backing Vocal">Backing Vocal</option>
+                <!-- Adicione mais opções conforme necessário -->
+            </select>
+        
+            <label for="dataSelecionada">Data:</label>
+            <input type="date" id="dataSelecionada" name="dataSelecionada" required>
+        
+            <label for="tonalidadeSelecionada">Tonalidade:</label>
+            <input type="text" id="tonalidadeSelecionada" name="tonalidadeSelecionada" required>
+        
+            <button onclick="adicionarItemPlaylist()">Adicionar à Playlist</button>
+        </div>
+
+        <button id="novocadastro-btn" onclick="adicionarNovoRegistro()">Adicionar Novo Registro</button>
+    </div>
+
     <div id="playlist">
         <h2>Playlist</h2>
         <button onclick="limparPlaylist()">Limpar Playlist</button>
         <ul id="playlistItens"></ul>
         <button onclick="voltarParaCadastro()">Voltar para o Cadastro</button>
-        <button onclick="adicionarNovoRegistro()">Adicionar Novo Registro</button>
     </div>
 
     <div id="videoContainer">
@@ -101,7 +133,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
 
     <script>
-         document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function () {
             // Configuração do Firebase
             const firebaseConfig = {
                 apiKey: "sua-api-key",
@@ -117,104 +149,125 @@
             firebase.initializeApp(firebaseConfig);
             const database = firebase.database();
 
-            // Função para atualizar a prévia do vídeo
-            function atualizarPrevia() {
-                const linkYoutube = document.getElementById('linkYoutube').value;
-                const preview = document.getElementById('preview');
-
-                // Extrair o ID do vídeo do link do YouTube
-                const videoId = extrairVideoId(linkYoutube);
-
-                // Construir a URL da prévia do vídeo
-                const previewUrl = `https://img.youtube.com/vi/${videoId}/0.jpg`;
-
-                // Atualizar a imagem de prévia
-                preview.src = previewUrl;
-            }
-
-            // Função para extrair o ID do vídeo do link do YouTube
-            function extrairVideoId(linkYoutube) {
-                const regex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-                const match = linkYoutube.match(regex);
-
-                if (match && match[1]) {
-                    return match[1];
-                }
-
-                return null;
-            }
-
-            // Função para adicionar um novo registro à playlist
-            function adicionarNovoRegistro() {
-                // Substitua esta parte pelo código que obtém os dados do formulário
-                const novoRegistro = {
-                    nomeMusica: "Nova Música",
-                    linkYoutube: "https://www.youtube.com/watch?v=abcdefghijk",
-                    linkCifrasClub: "https://www.cifrasclub.com.br/cifra/abcdefghijk",
-                    vozSelecionada: "Voz Principal",
-                    dataSelecionada: "2023-12-31",
-                    tonalidadeSelecionada: "C"
-                };
-
-                // Adiciona o novo registro à playlist
-                adicionarItemPlaylist(
-                    novoRegistro.nomeMusica,
-                    novoRegistro.linkYoutube,
-                    novoRegistro.linkCifrasClub,
-                    novoRegistro.vozSelecionada,
-                    novoRegistro.dataSelecionada,
-                    novoRegistro.tonalidadeSelecionada
-                );
-            }
-
-            // Função para adicionar um item à playlist
-            function adicionarItemPlaylist(nomeMusica, linkYoutube, linkCifrasClub, vozSelecionada, dataSelecionada, tonalidadeSelecionada) {
-                // Construir a URL da parte 1 com os parâmetros
-                const urlParte1 = `https://is-moraes.github.io/louvor_generator/formulario.html#?nomeMusica=${encodeURIComponent(nomeMusica)}&linkYoutube=${encodeURIComponent(linkYoutube)}&linkCifrasClub=${encodeURIComponent(linkCifrasClub)}&vozSelecionada=${encodeURIComponent(vozSelecionada)}&dataSelecionada=${encodeURIComponent(dataSelecionada)}&tonalidadeSelecionada=${encodeURIComponent(tonalidadeSelecionada)}`;
-
-                // Adicionar o item à playlist
-                const playlistItem = `
-                    <div class="playlistItem">
-                        <strong>${nomeMusica}</strong>
-                        <br>
-                        <a href="#" onclick="reproduzirVideo('${linkYoutube}')">Assistir Video YouTube</a>
-                        <br>
-                        <a href="#" onclick="visualizarCifra('${linkCifrasClub}')">Cifra</a>
-                        <br>
-                        <span>Voz: ${vozSelecionada}</span>
-                        <br>
-                        <span>Data: ${dataSelecionada}</span>
-                        <br>
-                        <span>Tonalidade: ${tonalidadeSelecionada}</span>
-                        <br>
-                        <a href="${urlParte1}">Editar</a> <!-- Adiciona um link para editar na parte 1 -->
-                        <button onclick="fecharItem()">Fechar</button>
-                    </div>
-                `;
-
-                // Adicionar o item à lista
+            // Se já existirem dados no Firebase, carrega e exibe a playlist
+            const playlistRef = database.ref('playlist');
+            playlistRef.once('value', function (snapshot) {
                 const playlistItens = document.getElementById('playlistItens');
-                const listItem = document.createElement('li');
-                listItem.innerHTML = playlistItem;
-                playlistItens.appendChild(listItem);
+                snapshot.forEach(function (childSnapshot) {
+                    const dados = childSnapshot.val();
+                    adicionarItemNaPlaylist(dados);
+                });
 
-                // Exibir a div da playlist
                 document.getElementById('playlist').style.display = 'block';
-            }
-
-            // Função para limpar a playlist
-            function limparPlaylist() {
-                const playlistItens = document.getElementById('playlistItens');
-                playlistItens.innerHTML = ''; // Remove todos os itens da playlist
-
-                // Adiciona a lógica para remover dados do Firebase, se necessário
-                const playlistRef = firebase.database().ref('playlist');
-                playlistRef.remove();
-            }
-
-            // Restante do seu script...
-
+            });
         });
+
+        // Função para fechar o item da playlist
+function fecharItem() {
+    // Implemente o código necessário para fechar o item, se desejado
+}
+
+// Função para reproduzir o vídeo do YouTube
+function reproduzirVideo(linkYoutube) {
+    // Implemente a lógica para reproduzir o vídeo, se desejado
+    // Por exemplo, você pode abrir um modal ou exibir o vídeo em algum elemento da página
+}
+
+// Função para visualizar a cifra
+function visualizarCifra(linkCifrasClub) {
+    // Implemente a lógica para visualizar a cifra, se desejado
+    // Por exemplo, você pode abrir um modal ou exibir a cifra em algum elemento da página
+}
+
+// Função para fechar o vídeo
+function fecharVideo() {
+    // Implemente a lógica para fechar o vídeo, se desejado
+    // Por exemplo, você pode fechar o modal ou ocultar o elemento de vídeo
+}
+
+// Função para fechar a cifra
+function fecharCifra() {
+    // Implemente a lógica para fechar a cifra, se desejado
+    // Por exemplo, você pode fechar o modal ou ocultar o elemento da cifra
+}
+
+        // Função para adicionar um item à playlist
+        function adicionarItemNaPlaylist(dados) {
+            const playlistItem = `
+                <li class="playlistItem">
+                    <strong>${dados.nomeMusica}</strong>
+                    <br>
+                    <a href="#" onclick="reproduzirVideo('${dados.linkYoutube}')">Assistir Video YouTube</a>
+                    <br>
+                    <a href="#" onclick="visualizarCifra('${dados.linkCifrasClub}')">Cifra</a>
+                    <br>
+                    <span>Voz: ${dados.vozSelecionada}</span>
+                    <br>
+                    <span>Data: ${dados.dataSelecionada}</span>
+                    <br>
+                    <span>Tonalidade: ${dados.tonalidadeSelecionada}</span>
+                    <br>
+                    <button onclick="fecharItem()">Fechar</button>
+                </li>
+            `;
+
+            const playlistItens = document.getElementById('playlistItens');
+            playlistItens.insertAdjacentHTML('beforeend', playlistItem);
+        }
+
+        // Função para limpar a playlist
+        function limparPlaylist() {
+            const playlistItens = document.getElementById('playlistItens');
+            playlistItens.innerHTML = ''; // Remove todos os itens da playlist
+
+            // Adiciona a lógica para remover dados do Firebase, se necessário
+            const playlistRef = database.ref('playlist');
+            playlistRef.remove();
+        }
+
+        // Função para adicionar um novo registro à playlist
+        function adicionarNovoRegistro() {
+            // Implemente a lógica para adicionar um novo registro, conforme necessário
+            // Você pode usar os valores dos campos do formulário para isso
+            const nomeMusica = document.getElementById('nomeMusica').value;
+            const linkYoutube = document.getElementById('linkYoutube').value;
+            const linkCifrasClub = document.getElementById('linkCifrasClub').value;
+            const vozSelecionada = document.getElementById('vozSelecionada').value;
+            const dataSelecionada = document.getElementById('dataSelecionada').value;
+            const tonalidadeSelecionada = document.getElementById('tonalidadeSelecionada').value;
+
+            // Adiciona o novo registro à playlist
+            adicionarItemNaPlaylist({
+                nomeMusica,
+                linkYoutube,
+                linkCifrasClub,
+                vozSelecionada,
+                dataSelecionada,
+                tonalidadeSelecionada
+            });
+
+            // Adiciona o novo registro ao Firebase
+            const novoRegistroRef = playlistRef.push();
+            novoRegistroRef.set({
+                nomeMusica,
+                linkYoutube,
+                linkCifrasClub,
+                vozSelecionada,
+                dataSelecionada,
+                tonalidadeSelecionada
+            });
+
+            // Limpa os campos do formulário, se necessário
+            document.getElementById('nomeMusica').value = '';
+            document.getElementById('linkYoutube').value = '';
+            document.getElementById('linkCifrasClub').value = '';
+            document.getElementById('vozSelecionada').value = '';
+            document.getElementById('dataSelecionada').value = '';
+            document.getElementById('tonalidadeSelecionada').value = '';
+
+            // Exibe a playlist após adicionar um novo registro
+            document.getElementById('playlist').style.display = 'block';
+        }
     </script>
 </body>
 </html>
