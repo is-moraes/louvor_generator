@@ -3,40 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Playlist da Semana!</title>
+    <title>Playlist</title>
     <style>
         body {
             background: linear-gradient(to right, #084e43, #809a93);
             color: #ffffff;
             font-family: Arial, sans-serif;
         }
-        #formulario, #playlist, #novocadastro, #videoContainer, #cifraContainer {
-            max-width: 900px;
+
+        #login {
+            max-width: 400px;
             margin: 50px auto;
             background-color: #004639;
             padding: 20px;
             border-radius: 10px;
         }
-        #playlist, #novocadastro, #videoContainer, #cifraContainer {
-            display: none;
+
+        #formulario {
+            max-width: 900px;
+            margin: 50px auto;
+            background-color: #004639;
+            padding: 20px;
+            border-radius: 10px;
+            display: none; /* Oculta o formulário até que o login seja bem-sucedido */
         }
-        label {
-            display: block;
-            margin-bottom: 10px;
-        }
-        input, select {
+
+        #formulario label,
+        #formulario select,
+        #formulario input {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
             box-sizing: border-box;
         }
-        #preview {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 15px;
-        }
-        #novocadastro-btn {
-            float: right;
+
+        #formulario button {
             background-color: #3498db;
             color: #fff;
             border: none;
@@ -44,22 +45,34 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
+        #playlist {
+            max-width: 900px;
+            margin: 50px auto;
+            background-color: #004639;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
         #playlistItens {
             list-style: none;
             padding: 0;
         }
+
         .playlistItem {
             margin-bottom: 20px;
             border: 1px solid #1e6b5a;
             padding: 10px;
             border-radius: 5px;
         }
+
         .playlistItem a {
             color: #3498db;
             text-decoration: none;
             margin-right: 10px;
             cursor: pointer;
         }
+
         .playlistItem button {
             background-color: #3498db;
             color: #fff;
@@ -68,136 +81,80 @@
             border-radius: 3px;
             cursor: pointer;
         }
-        #videoPlayer {
-            width: 100%;
-            height: 720px;
-        }
-        #cifra {
-            width: 100%;
-            height: 720px;
-        }
     </style>
 </head>
 <body>
-    <div id="formulario">
-        <h2>Cadastro</h2>
-        <div id="formulario">
-            <h2>Cadastro de Música</h2>
-            <label for="nomeMusica">Nome da Música:</label>
-            <input type="text" id="nomeMusica" name="nomeMusica" required>
-        
-            <label for="linkYoutube">Link do YouTube:</label>
-            <input type="text" id="linkYoutube" name="linkYoutube" required>
-        
-            <label for="linkCifrasClub">Link do Cifras Club:</label>
-            <input type="text" id="linkCifrasClub" name="linkCifrasClub" required>
-        
-            <label for="vozSelecionada">Voz:</label>
-            <select id="vozSelecionada" name="vozSelecionada" required>
-                <!-- Opções para a voz -->
-                <option value="Voz Principal">Voz Principal</option>
-                <option value="Backing Vocal">Backing Vocal</option>
-                <!-- Adicione mais opções conforme necessário -->
-            </select>
-        
-            <label for="dataSelecionada">Data:</label>
-            <input type="date" id="dataSelecionada" name="dataSelecionada" required>
-        
-            <label for="tonalidadeSelecionada">Tonalidade:</label>
-            <input type="text" id="tonalidadeSelecionada" name="tonalidadeSelecionada" required>
-        
-            <button onclick="adicionarItemPlaylist()">Adicionar à Playlist</button>
-        </div>
+    <div id="login">
+        <h2>Login</h2>
+        <label for="username">Nome de usuário:</label>
+        <input type="text" id="username" name="username" required>
 
-        <button id="novocadastro-btn" onclick="adicionarNovoRegistro()">Adicionar Novo Registro</button>
+        <label for="password">Senha:</label>
+        <input type="password" id="password" name="password" required>
+
+        <button onclick="fazerLogin()">Login</button>
+    </div>
+
+    <div id="formulario">
+        <h2>Cadastro de Música</h2>
+        <label for="nomeMusica">Nome da Música:</label>
+        <input type="text" id="nomeMusica" name="nomeMusica" required>
+
+        <label for="linkYoutube">Link do YouTube:</label>
+        <input type="text" id="linkYoutube" name="linkYoutube" required>
+
+        <label for="linkCifrasClub">Link do Cifras Club:</label>
+        <input type="text" id="linkCifrasClub" name="linkCifrasClub" required>
+
+        <label for="vozSelecionada">Voz:</label>
+        <select id="vozSelecionada" name="vozSelecionada" required>
+            <option value="Voz Principal">Voz Principal</option>
+            <option value="Backing Vocal">Backing Vocal</option>
+        </select>
+
+        <label for="dataSelecionada">Data:</label>
+        <input type="date" id="dataSelecionada" name="dataSelecionada" required>
+
+        <label for="tonalidadeSelecionada">Tonalidade:</label>
+        <input type="text" id="tonalidadeSelecionada" name="tonalidadeSelecionada" required>
+
+        <button onclick="adicionarItemPlaylist()">Adicionar à Playlist</button>
     </div>
 
     <div id="playlist">
         <h2>Playlist</h2>
-        <button onclick="limparPlaylist()">Limpar Playlist</button>
         <ul id="playlistItens"></ul>
-        <button onclick="voltarParaCadastro()">Voltar para o Cadastro</button>
+        
     </div>
-
-    <div id="videoContainer">
-        <iframe id="videoPlayer" frameborder="0" allowfullscreen></iframe>
-        <button onclick="fecharVideo()">Fechar Vídeo</button>
-    </div>
-
-    <div id="cifraContainer">
-        <iframe id="cifra" frameborder="0" allowfullscreen></iframe>
-        <button onclick="fecharCifra()">Fechar Cifra</button>
-    </div>
-
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Configuração do Firebase
-            const firebaseConfig = {
-                apiKey: "sua-api-key",
-                authDomain: "seu-auth-domain",
-                projectId: "seu-project-id",
-                storageBucket: "seu-storage-bucket",
-                messagingSenderId: "seu-messaging-sender-id",
-                appId: "seu-app-id",
-                measurementId: "seu-measurement-id"
-            };
+        let itemIdCounter = 1;
 
-            // Inicializa o Firebase
-            firebase.initializeApp(firebaseConfig);
-            const database = firebase.database();
+        function fazerLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
 
-            // Se já existirem dados no Firebase, carrega e exibe a playlist
-            const playlistRef = database.ref('playlist');
-            playlistRef.once('value', function (snapshot) {
-                const playlistItens = document.getElementById('playlistItens');
-                snapshot.forEach(function (childSnapshot) {
-                    const dados = childSnapshot.val();
-                    adicionarItemNaPlaylist(dados);
-                });
+            if (username === 'seuUsuario' && password === 'senha123') {
+                document.getElementById('formulario').style.display = 'block';
+                document.getElementById('login').style.display = 'none';
+            } else {
+                alert('Credenciais inválidas. Tente novamente.');
+            }
+        }
 
-                document.getElementById('playlist').style.display = 'block';
-            });
-        });
+        window.onload = function () {
+            const listaDados = JSON.parse(localStorage.getItem('playlist')) || [];
+            const playlistItens = document.getElementById('playlistItens');
+            listaDados.forEach(dados => adicionarItemNaPlaylist(dados));
+        }
 
-        // Função para fechar o item da playlist
-function fecharItem() {
-    // Implemente o código necessário para fechar o item, se desejado
-}
-
-// Função para reproduzir o vídeo do YouTube
-function reproduzirVideo(linkYoutube) {
-    // Implemente a lógica para reproduzir o vídeo, se desejado
-    // Por exemplo, você pode abrir um modal ou exibir o vídeo em algum elemento da página
-}
-
-// Função para visualizar a cifra
-function visualizarCifra(linkCifrasClub) {
-    // Implemente a lógica para visualizar a cifra, se desejado
-    // Por exemplo, você pode abrir um modal ou exibir a cifra em algum elemento da página
-}
-
-// Função para fechar o vídeo
-function fecharVideo() {
-    // Implemente a lógica para fechar o vídeo, se desejado
-    // Por exemplo, você pode fechar o modal ou ocultar o elemento de vídeo
-}
-
-// Função para fechar a cifra
-function fecharCifra() {
-    // Implemente a lógica para fechar a cifra, se desejado
-    // Por exemplo, você pode fechar o modal ou ocultar o elemento da cifra
-}
-
-        // Função para adicionar um item à playlist
         function adicionarItemNaPlaylist(dados) {
+            const itemId = `playlistItem${itemIdCounter++}`;
             const playlistItem = `
-                <li class="playlistItem">
+                <li id="${itemId}" class="playlistItem">
                     <strong>${dados.nomeMusica}</strong>
                     <br>
-                    <a href="#" onclick="reproduzirVideo('${dados.linkYoutube}')">Assistir Video YouTube</a>
+                    <a href="#" onclick="reproduzirVideo('${dados.linkYoutube}')">Assistir Video Youtube</a>
                     <br>
                     <a href="#" onclick="visualizarCifra('${dados.linkCifrasClub}')">Cifra</a>
                     <br>
@@ -207,7 +164,7 @@ function fecharCifra() {
                     <br>
                     <span>Tonalidade: ${dados.tonalidadeSelecionada}</span>
                     <br>
-                    <button onclick="fecharItem()">Fechar</button>
+                    <button onclick="fecharItem('${itemId}')">Fechar</button>
                 </li>
             `;
 
@@ -215,20 +172,7 @@ function fecharCifra() {
             playlistItens.insertAdjacentHTML('beforeend', playlistItem);
         }
 
-        // Função para limpar a playlist
-        function limparPlaylist() {
-            const playlistItens = document.getElementById('playlistItens');
-            playlistItens.innerHTML = ''; // Remove todos os itens da playlist
-
-            // Adiciona a lógica para remover dados do Firebase, se necessário
-            const playlistRef = database.ref('playlist');
-            playlistRef.remove();
-        }
-
-        // Função para adicionar um novo registro à playlist
-        function adicionarNovoRegistro() {
-            // Implemente a lógica para adicionar um novo registro, conforme necessário
-            // Você pode usar os valores dos campos do formulário para isso
+        function adicionarItemPlaylist() {
             const nomeMusica = document.getElementById('nomeMusica').value;
             const linkYoutube = document.getElementById('linkYoutube').value;
             const linkCifrasClub = document.getElementById('linkCifrasClub').value;
@@ -236,37 +180,42 @@ function fecharCifra() {
             const dataSelecionada = document.getElementById('dataSelecionada').value;
             const tonalidadeSelecionada = document.getElementById('tonalidadeSelecionada').value;
 
-            // Adiciona o novo registro à playlist
-            adicionarItemNaPlaylist({
+            const novoItem = {
                 nomeMusica,
                 linkYoutube,
                 linkCifrasClub,
                 vozSelecionada,
                 dataSelecionada,
-                tonalidadeSelecionada
-            });
+                tonalidadeSelecionada,
+            };
 
-            // Adiciona o novo registro ao Firebase
-            const novoRegistroRef = playlistRef.push();
-            novoRegistroRef.set({
-                nomeMusica,
-                linkYoutube,
-                linkCifrasClub,
-                vozSelecionada,
-                dataSelecionada,
-                tonalidadeSelecionada
-            });
+            const listaDados = JSON.parse(localStorage.getItem('playlist')) || [];
+            listaDados.push(novoItem);
+            localStorage.setItem('playlist', JSON.stringify(listaDados));
 
-            // Limpa os campos do formulário, se necessário
+            adicionarItemNaPlaylist(novoItem);
+
             document.getElementById('nomeMusica').value = '';
             document.getElementById('linkYoutube').value = '';
             document.getElementById('linkCifrasClub').value = '';
-            document.getElementById('vozSelecionada').value = '';
+            document.getElementById('vozSelecionada').value = 'Voz Principal';
             document.getElementById('dataSelecionada').value = '';
             document.getElementById('tonalidadeSelecionada').value = '';
+        };
 
-            // Exibe a playlist após adicionar um novo registro
-            document.getElementById('playlist').style.display = 'block';
+        function fecharItem(itemId) {
+            const itemParaRemover = document.getElementById(itemId);
+
+            itemParaRemover.parentNode.removeChild(itemParaRemover);
+
+            const listaDados = JSON.parse(localStorage.getItem('playlist')) || [];
+            const novoListaDados = listaDados.filter(item => item.itemId !== itemId);
+            localStorage.setItem('playlist', JSON.stringify(novoListaDados));
+        }
+
+        function voltarParaCadastro() {
+            document.getElementById('formulario').style.display = 'block';
+            document.getElementById('playlist').style.display = 'none';
         }
     </script>
 </body>
